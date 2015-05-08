@@ -1,0 +1,204 @@
+<html>
+<head>
+<title>帮你比 -- 综合电商比价平台，让电商的价格更加透明！</title>
+<link rel="shortcut icon" type="image/x-icon" href="bi_logo.ico" media="screen" /> 
+    <meta http-equiv="Content-Language" content="en-gb">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="jquery-ui.css">
+  <script src="jquery-1.10.2.js"></script>
+  <script src="jquery-ui.js"></script>
+
+    <script language="javascript" type="text/javascript">
+function loadTabFrame(tab, url) {
+    if ($(tab).find("iframe").length == 0) {
+        var html = [];
+        html.push('<div class="tabIframeWrapper">');
+        html.push('<iframe class="iframetab" src="' + url + '">Load Failed?</iframe>');
+        html.push('</div>');
+        $(tab).append(html.join(""));
+        $(tab).find("iframe").height($(window).height()-80);
+		return;
+    }
+	
+	//alert($(tab+" iframe")[0].src);alert(url);
+	if ($(tab+" iframe")[0].src == url);else
+		$(tab+" iframe")[0].src = url;
+	
+    return false;
+} 
+
+$(document).ready(function() {
+                var $tabs = $('#tabs').tabs();
+				$("a.tabref").click(function() {
+					loadTabFrame($(this).attr("href"),$(this).attr("rel"));
+				});
+				
+	var beginTab = $("#tabs ul li:eq(" + $tabs.tabs('option', 'active')+ ")").find("a");
+	loadTabFrame($(beginTab).attr("href"),$(beginTab).attr("rel"));
+	
+	$('#spSearch').click(function() {
+		$("a.tabref[href='#tabs-1']").attr("rel", "http://s.taobao.com/search?spm=1.7274553.1997520241-1.10.0EP5oG&refpid=430145_1006&style=grid&tab=all&q=" +　encodeURI($("#query").val()));
+		
+		$("a.tabref[href='#tabs-2']").attr("rel", "http://search.jd.com/Search?enc=utf-8&suggest=8&keyword=" +　encodeURI($("#query").val()));
+		
+		$("a.tabref[href='#tabs-3']").attr("rel", "http://search.yhd.com/c0-0/k" +　encodeURI($("#query").val()) + "/1/?tp=1.1.12.0.18.KoIciCG-10-CjjKf");
+		
+		$("a.tabref[href='#tabs-4']").attr("rel", "http://search.suning.com/"+encodeURI($("#query").val())+"/cityId=9173");
+		
+		$("a.tabref[href='#tabs-5']").attr("rel", "http://www.gome.com.cn/search?question=" +　encodeURI($("#query").val()));
+		
+		$("a.tabref[href='#tabs-6']").attr("rel", "http://search.dangdang.com/?key=" +　encodeURI($("#query").val()));
+		
+		//alert($("a.tabref[href='#tabs-1']").attr("rel"));
+		var beginTab = $("#tabs ul li:eq(" + $tabs.tabs('option', 'active')+ ")").find("a");
+		loadTabFrame($(beginTab).attr("href"),$(beginTab).attr("rel"));
+	});
+
+	var typingTimer;                //timer identifier
+	var doneTypingInterval = 100;  //time in ms, 5 second for exam
+
+	$('#query').focus(function(){
+		$(this).keyup();
+	});
+	$(document).bind("click",function(e){
+		var target  = $(e.target);
+		if(target.closest("#query,#suggestions").length == 0)$('#suggestions').hide();
+	});
+	$('#query').keydown(function(e){
+		clearTimeout(typingTimer);
+	});
+	$('#query').keyup(function(e){
+		if (e && e.keyCode == 13){
+			$("#suggestions").hide();
+			$('#spSearch').click();
+			return;
+		}
+		if (e && e.keyCode == 40){
+			$("#suggestions").focus();	
+			return;
+		}
+		var input = $(this).val().trim();
+		//alert(input);
+                if (input.length > 0){
+			if (typingTimer) clearTimeout(typingTimer);                 // Clear if already set     
+			typingTimer = setTimeout(function(){
+		$.getJSON("http://120.25.239.154:6339/qs?key="+input+"&cb=?",function(data){
+//        		alert(data[0]);
+			var sugg = "<ul> ";
+			for (var i=0;i<data.length && i<10;i++){
+				var tm = data[i].term;
+				if (tm == input)continue;
+				var idx = tm.indexOf(input);
+				if (idx >= 0)
+					tm = (idx>0 ? "<b>" + tm.substring(0, idx) + "</b>": "") + tm.substring(idx, idx + input.length) + (idx + input.length < tm.length? "<b>" + tm.substring(idx + input.length)+"</b>":"");
+				else tm = "<b>" + tm + "</b>";
+				sugg += "<li term=\""+data[i].term+"\"><a>" + tm + "</a></li>";
+			}
+			sugg += "</ul>";
+			$("#suggestions").html(sugg);
+
+			var Ptr = $("#suggestions li");
+			for (var i=1;i<Ptr.length+1;i++) 
+				$(Ptr[i-1]).attr("class", "t2");
+				//$(Ptr[i-1]).attr("class", (i%2!=0?"t1":"t2"));
+			for(var i=0;i<Ptr.length;i++) {
+				$(Ptr[i]).mouseover(function(){
+					$(this).attr("tmpClass", $(this).attr("class"));
+					$(this).attr("class", "t3");
+				});
+				$(Ptr[i]).mouseout(function(){
+					$(this).attr("class", $(this).attr("tmpClass"));
+				});
+			}
+			if (sugg.length > 10)	$("#suggestions").show();
+
+			$(".mytable ul li").click(function(){
+			    $('#query').val($(this).attr("term"));
+			    $('#spSearch').click();
+			    $("#suggestions").hide();
+	//			alert($(this).attr("term"));
+			});
+    		});
+		}, doneTypingInterval);
+		}else $("#suggestions").hide();
+	});
+
+});
+	
+</script>
+<style>
+    html {
+        font-size:10px;
+    }
+
+    .iframetab {
+        width:100%;
+        height:auto;
+        border:0px;
+        margin:0px;
+        background: url("iframeno.png") no-repeat top;
+    }
+
+    .ui-tabs-panel {
+        padding:5px !important;
+    }
+	input,img{vertical-align:middle;}
+</style>
+<style>
+.mytable {border-collapse:collapse;border:solid #6AA70B;border-width:0px 1 1 1px;width:30%;position:absolute;top:43px;float:center;z-index:999;left:37%;}
+.mytable ul {margin:0px;padding:0px}
+.mytable ul li {margin:0px;padding:5px;list-style:none;border-bottom:#6AA70B 1px dotted ;font-family: “Verdana,宋体”;font-size: 12px;color:#008000;text-align:left;height:30px; line-height:30px;}
+.mytable ul li a{ color:#333; text-decoration:none; display:block; width:100%; height:30px; }
+.mytable ul li a:hover { color:#FF6600; text-decoration:none; display:block; width:100%; height:30px; }
+.mytable ul li.t1 {background-color:#EEEEEE;}/* 第一行的背景色 */
+.mytable ul li.t2{background-color:#FFFFFF;}/* 第二行的背景色 */
+.mytable ul li.t3 {background-color:#E7E6E2;}/* 鼠标经过时的背景色 */
+</style>
+</head>
+
+<body>
+<div>
+<p> </p>
+<p >
+	<img src="bangnibi.png"  style="position:relative;left:30%;width:7%;height:35px"/>
+	<input type="text" id="query" style="position:relative;left:30%;width:30%;height:35px" placeholder="请输入要搜索的词" lang="zh-CN" autocomplete="off" aria-haspopup="true" aria-combobox="list" role="combobox"/>
+	<img id="spSearch" src="search.png" style="height:35px;width:7%;position:absolute;left:67%;"  onmouseover="this.style.cursor='pointer';this.style.cursor='hand'" onmouseout="this.style.cursor='default'" />
+<p>
+<div id="suggestions" class="mytable">
+</div>
+</p>
+</p>
+<p> </p>
+
+</div>
+   
+   <div id="tabs">
+            <ul>
+                <li><a class="tabref" href="#tabs-1" rel="http://s.taobao.com/search?spm=1.7274553.1997520241-1.10.0EP5oG&refpid=430145_1006&style=grid&tab=all&q=连衣裙">taobao.com</a></li>
+                <li><a class="tabref" href="#tabs-2" rel="http://search.jd.com/Search?keyword=ipad%20air&enc=utf-8&suggest=8">jd.com</a></li>
+                <li><a class="tabref" href="#tabs-3" rel="http://search.yhd.com/c0-0/k%25E7%2589%259B%25E5%25A5%25B6/1/?tp=1.1.12.0.18.KoIciCG-10-CjjKf">yhd.com</a></li>
+				<li><a class="tabref" href="#tabs-4" rel="http://search.suning.com/花露水/cityId=9173">suning.com.com</a></li>
+                <li><a class="tabref" href="#tabs-5" rel="http://www.gome.com.cn/search?question=空调">gome.com.cn</a></li>
+                <li><a class="tabref" href="#tabs-6" rel="http://search.dangdang.com/?key=%B4%D30%B5%BD1&category_path=01.00.00.00.00.00&type=01.00.00.00.00.00">dangdang.com</a></li>
+            </ul>
+            <div id="tabs-1" class="tabMain">
+            </div>
+
+            <div id="tabs-2">
+            </div>
+
+            <div id="tabs-3">
+            </div>
+
+            <div id="tabs-4">
+            </div>
+
+            <div id="tabs-5">
+            </div>
+
+            <div id="tabs-6">
+            </div>
+        </div>
+
+</body>
+</html>
