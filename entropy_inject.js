@@ -36,11 +36,12 @@ function getScript(source, callback) {
     script.src = source;
 }
 
-function addTips(tag){
+function addTips(tag, src){
     getScript("http://www.hello987.com/jquery-1.10.2.js", function(){
         getScript("http://www.hello987.com/jquery-ui.js", function(){
 	    var ti = $(tag);
-	    var html = "<a hello987='hello987' target='_blank' href='http://www.hello987.com' title='\u70b9\u51fb\u5e2e\u4f60\u8d27\u6bd4\u4e09\u5bb6'>" + ti.text().replace(/["'<>]/gi, "") + "</a>";
+	    var q = encodeURIComponent(ti.text().replace(/["'<>]/gi, ""));
+	    var html = "<a hello987='hello987' target='_blank' href='http://www.hello987.com/search.php?ti="+q+"&src="+src+"' title='\u70b9\u51fb\u5e2e\u4f60\u8d27\u6bd4\u4e09\u5bb6'>" + ti.text() + "</a>";
 	    ti.html(html);
 	    $('head').append("<link rel='stylesheet' href='http://www.hello987.com/jquery-ui.css'/>");
 	    $('head').append("<link rel='stylesheet' href='http://www.hello987.com/tips.css'/>");
@@ -55,42 +56,42 @@ function addTips(tag){
 
 if (location.href.indexOf("item.jd.com/") >=0){
     $(document).ready(function() {
-	addTips("#itemInfo > #name > h1");return;
+	addTips("#itemInfo > #name > h1", "jd.com");return;
     });
 }
 
 if (location.href.indexOf("detail.tmall.com/") >=0){
      window.onload = function() {
-	    addTips(".tb-wrap > .tb-detail-hd > h1");
+	    addTips(".tb-wrap > .tb-detail-hd > h1", "tmall.com");
     };
 }
 
 if (location.href.indexOf("item.taobao.com/") >=0){
      window.onload = function() {
-	    addTips(".tb-wrap > .tb-title > h3");
+	    addTips(".tb-wrap > .tb-title > h3", "taobao.com");
     };
 }
 
 if (location.href.indexOf("product.suning.com/") >=0){
     $(document).ready(function() {
-	addTips("#itemDisplayName");return;
+	addTips("#itemDisplayName", "suninig.com");return;
     });
 }
 
 if (location.href.indexOf("item.gome.com.cn/") >=0){
     $(document).ready(function() {
-	addTips("h1.prdtit");return;
+	addTips("h1.prdtit", "gome.com");return;
     });
 }
 
 if (location.href.indexOf("product.dangdang.com/") >=0){
     $(document).ready(function() {
-	addTips(".head > h1");return;
+	addTips(".head > h1", "dangdang.com");return;
     });
 }
 
 if (location.href.indexOf("item.yhd.com/item/") >=0){
     $(document).ready(function() {
-	addTips("#productMainName");
+	addTips("#productMainName", "yhd.com");
     });
 }
