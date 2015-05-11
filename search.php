@@ -204,12 +204,12 @@ $(tabs).find( ".ui-tabs-nav" ).sortable({
    
    <div id="tabs">
             <ul>
-                <li><a class="tabref" href="#tabs-1" rel="http://s.taobao.com/search?spm=1.7274553.1997520241-1.10.0EP5oG&refpid=430145_1006&style=grid&tab=all&q=<?php echo $ti;?>">taobao.com</a></li>
-                <li><a class="tabref" href="#tabs-2" rel="http://search.jd.com/Search?keyword=<?php echo $ti;?>&enc=utf-8&suggest=8">jd.com</a></li>
-                <li><a class="tabref" href="#tabs-3" rel="http://search.yhd.com/c0-0/k<?php echo $ti;?>/1/?tp=1.1.12.0.18.KoIciCG-10-CjjKf">yhd.com</a></li>
-				<li><a class="tabref" href="#tabs-4" rel="http://search.suning.com/<?php echo $ti;?>/cityId=9173">suning.com</a></li>
-                <li><a class="tabref" href="#tabs-5" rel="http://www.gome.com.cn/search?question=<?php echo $ti;?>">gome.com.cn</a></li>
-                <li><a class="tabref" href="#tabs-6" rel="http://search.dangdang.com/?key=<?php echo $ti;?>&category_path=01.00.00.00.00.00&type=01.00.00.00.00.00">dangdang.com</a></li>
+                <li><a class="tabref" href="#tabs-1" rel="http://s.taobao.com/search?spm=1.7274553.1997520241-1.10.0EP5oG&refpid=430145_1006&style=grid&tab=all&q=<?php echo $ti;?>"><img src="http://www.taobao.com/favicon.ico" > 淘宝网</a></li>
+                <li><a class="tabref" href="#tabs-2" rel="http://search.jd.com/Search?keyword=<?php echo $ti;?>&enc=utf-8&suggest=8"><img src="http://www.jd.com/favicon.ico" width="16px" height="16"> 京东商城</a></li>
+                <li><a class="tabref" href="#tabs-3" rel="http://search.yhd.com/c0-0/k<?php echo $ti;?>/1/?tp=1.1.12.0.18.KoIciCG-10-CjjKf"><img src="http://www.yhd.com/favicon.ico" > 1号店</a></li>
+				<li><a class="tabref" href="#tabs-4" rel="http://search.suning.com/<?php echo $ti;?>/cityId=9173"><img src="http://www.suning.com/favicon.ico" > 苏宁</a></li>
+                <li><a class="tabref" href="#tabs-5" rel="http://www.gome.com.cn/search?question=<?php echo $ti;?>"><img src="http://www.gome.com.cn/favicon.ico" > 国美商城</a></li>
+                <li><a class="tabref" href="#tabs-6" rel="http://search.dangdang.com/?key=<?php echo $ti;?>"><img src="http://www.dangdang.com/favicon.ico" > 当当网</a></li>
             </ul>
             <div id="tabs-1" class="tabMain">
             </div>

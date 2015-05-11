@@ -310,7 +310,7 @@ new RegExp("^http://www.zzt.tm", "g")
 );
 
 var antipatt = new Array(
-new RegExp("[^0-9]762178[^0-9]*", "g"),
+new RegExp("[^0-9]796498[^0-9]*", "g"),
 new RegExp("http://click.linktech.cn/.*a=A100204038", "g"),
 new RegExp("http://union.500.com/", "g"),
 new RegExp("http://p.yiqifa.com/", "g"),

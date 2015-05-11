@@ -215,4 +215,3 @@ $redirect['www.guuoo.com'] = 'http://click.linktech.cn/?m=guuoo&a=A100213703&l=9
 $redirect['www.youmi.cn'] = 'http://click.linktech.cn/?m=youmi&a=A100213703&l=99999&l_cd1=0&l_cd2=1&tu=';
 $redirect['www.ttime.com'] = 'http://click.linktech.cn/?m=tianshi&a=A100213703&l=99999&l_cd1=0&l_cd2=1&tu=';
 
-?>
