@@ -15,10 +15,13 @@
 	$src = 4;
     elseif(strcmp($src, "dangdang.com") == 0)
 	$src = 5;
+    elseif(strcmp($src, "tmall.com") == 0)
+	$src = 6;
     else $src = 0;
 ?>
 <html>
 <head>
+
 <title>帮你比 -- 综合电商比价平台，让电商的价格更加透明！</title>
 <link rel="shortcut icon" type="image/x-icon" href="bi_logo.ico" media="screen" /> 
     <meta http-equiv="Content-Language" content="en-gb">
@@ -28,7 +31,9 @@
   <script src="jquery-ui.js"></script>
 
     <script language="javascript" type="text/javascript">
+
 function loadTabFrame(tab, url) {
+
     if ($(tab).find("iframe").length == 0) {
         var html = [];
         html.push('<div class="tabIframeWrapper">');
@@ -39,26 +44,37 @@ function loadTabFrame(tab, url) {
 	return;
     }
 	
-	//alert($(tab+" iframe")[0].src);alert(url);
-	if ($(tab+" iframe")[0].src == url);else
+//	alert(decodeURI($(tab+" iframe")[0].src));alert(decodeURI(url));
+	if (decodeURI($(tab+" iframe")[0].src) == decodeURI(url));else
 		$(tab+" iframe")[0].src = url;
-	
-    $(tabs).tabs( "refresh" );
+    //$(tabs).tabs( "refresh" );
     return false;
 } 
+function reload_all_frame()
+{
+	loadTabFrame("#tabs-1", $("a.tabref[href='#tabs-1']").attr("rel"));
+	loadTabFrame("#tabs-2", $("a.tabref[href='#tabs-2']").attr("rel"));
+	loadTabFrame("#tabs-3", $("a.tabref[href='#tabs-3']").attr("rel"));
+	loadTabFrame("#tabs-4", $("a.tabref[href='#tabs-4']").attr("rel"));
+	loadTabFrame("#tabs-5", $("a.tabref[href='#tabs-5']").attr("rel"));
+	loadTabFrame("#tabs-6", $("a.tabref[href='#tabs-6']").attr("rel"));
+	loadTabFrame("#tabs-7", $("a.tabref[href='#tabs-7']").attr("rel"));
+}
 
 $(document).ready(function() {
         var $tabs = $('#tabs').tabs();
 	$("a.tabref").click(function() {
 		loadTabFrame($(this).attr("href"),$(this).attr("rel"));
 	});
-$(tabs).find( ".ui-tabs-nav" ).sortable({
-      axis: "x",
-      stop: function() {
-        $(tabs).tabs( "refresh" );
-      }
-    });
+
+        $(tabs).find( ".ui-tabs-nav" ).sortable({
+		axis: "x",
+      		stop: function() {
+        		$(tabs).tabs( "refresh" );
+      		}	
+    	});
 				
+	reload_all_frame();
 	var beginTab = $($("#tabs > ul > li").get(<?php echo $src;?>)).find("a");
 	//var beginTab = $("#tabs ul li:eq(" + $tabs.tabs('option', 'active')+ ")").find("a");
 	loadTabFrame($(beginTab).attr("href"),$(beginTab).attr("rel"));
@@ -76,6 +92,10 @@ $(tabs).find( ".ui-tabs-nav" ).sortable({
 		$("a.tabref[href='#tabs-5']").attr("rel", "http://www.gome.com.cn/search?question=" +　encodeURI($("#query").val()));
 		
 		$("a.tabref[href='#tabs-6']").attr("rel", "http://search.dangdang.com/?key=" +　encodeURI($("#query").val()));
+		
+		$("a.tabref[href='#tabs-7']").attr("rel", "http://list.tmall.com/search_product.htm?q=" +　$("#query").val());
+		reload_all_frame();
+		//$("a.tabref[href='#tabs-7']").attr("rel", "http://list.tmall.com/search_product.htm?q=" +　encodeURIComponent_GBK($("#query").val()));
 		
 		//alert($("a.tabref[href='#tabs-1']").attr("rel"));
 		beginTab = $("#tabs ul li:eq(" + $tabs.tabs('option', 'active')+ ")").find("a");
@@ -210,6 +230,7 @@ $(tabs).find( ".ui-tabs-nav" ).sortable({
 				<li><a class="tabref" href="#tabs-4" rel="http://search.suning.com/<?php echo $ti;?>/cityId=9173"><img src="http://www.suning.com/favicon.ico" > 苏宁</a></li>
                 <li><a class="tabref" href="#tabs-5" rel="http://www.gome.com.cn/search?question=<?php echo $ti;?>"><img src="http://www.gome.com.cn/favicon.ico" > 国美商城</a></li>
                 <li><a class="tabref" href="#tabs-6" rel="http://search.dangdang.com/?key=<?php echo $ti;?>"><img src="http://www.dangdang.com/favicon.ico" > 当当网</a></li>
+                <li><a class="tabref" href="#tabs-7" rel="http://list.tmall.com/search_product.htm?q=<?php echo $ti;?>"><img src="http://www.tmall.com/favicon.ico" > 天猫商城</a></li>
             </ul>
             <div id="tabs-1" class="tabMain">
             </div>
@@ -228,9 +249,16 @@ $(tabs).find( ".ui-tabs-nav" ).sortable({
 
             <div id="tabs-6">
             </div>
+
+            <div id="tabs-7">
+            </div>
         </div>
 
 <p align="center">帮你比 -- 沪ICP备15020472号-1</p>
 <p align="center"> 版权所有 © 上海安初信息科技有限公司</p>
+<p align="center">
+<script language="javascript" type="text/javascript" src="http://js.users.51.la/17785954.js"></script>
+<noscript><a href="http://www.51.la/?17785954" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/17785954.asp" style="border:none" /></a></noscript>
+</p>
 </body>
 </html>

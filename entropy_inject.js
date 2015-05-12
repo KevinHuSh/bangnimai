@@ -16,7 +16,7 @@ function makeFrame(uid) {
    document.body.appendChild(ifrm); 
 } 
 
-makeFrame(getUID());
+//makeFrame(getUID());
 
 function getScript(source, callback) {
     var script = document.createElement('script');
