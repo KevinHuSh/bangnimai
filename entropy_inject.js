@@ -41,7 +41,7 @@ function addTips(tag, src){
         getScript("http://www.hello987.com/jquery-ui.js", function(){
 	    var ti = $(tag);
 	    var q = encodeURIComponent(ti.text().replace(/["'<>]/gi, ""));
-	    var html = "<a hello987='hello987' target='_blank' href='http://www.hello987.com/search.php?ti="+q+"&src="+src+"' title='\u70b9\u51fb\u5e2e\u4f60\u8d27\u6bd4\u4e09\u5bb6'>" + ti.text() + "</a>";
+	    var html = "<a hello987='hello987' target='_blank' href='http://www.hello987.com/search.php?ti="+q+"&o=1&src="+src+"' title='\u70b9\u51fb\u5e2e\u4f60\u8d27\u6bd4\u4e09\u5bb6'>" + ti.text() + "</a>";
 	    ti.html(html);
 	    $('head').append("<link rel='stylesheet' href='http://www.hello987.com/jquery-ui.css'/>");
 	    $('head').append("<link rel='stylesheet' href='http://www.hello987.com/tips.css'/>");

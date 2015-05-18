@@ -1,5 +1,6 @@
 <?php
-    $ti = $_GET['ti'];
+    $ommit = $_GET['o'];
+    $ti = trim($_GET['ti'], "\t\n\r\0\x0B ");
     $src = $_GET['src'];
     $start_price = $_GET['start_price'];
     $end_price = $_GET['end_price'];
@@ -25,6 +26,29 @@
     elseif(strcmp($src, "tmall.com") == 0)
 	$tabidx = 6;
     else $tabidx = 0;
+
+///////////////query ommit
+if (strlen($ommit) > 0)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "localhost:6337/search?query=".$ti."^");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);      
+    curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1000);    
+    $output = curl_exec($ch);    
+//    echo $output."\n";
+//    echo "http://localhost:6337/search?query=".$ti."^";
+
+    $json = @json_decode($output, true);
+    $tks = "";
+    if (array_key_exists("results", $json) && count($json['results'])>0 && array_key_exists("token",  $json['results'][0]))
+        foreach($json['results'][0]['token'] as $token )
+	    if (strlen($token) > 3)
+                $tks = $tks." ".$token;
+    if (strlen($tks) > 0)
+	$ti = $tks;
+    curl_close($ch);
+}
+
 ?>
 <html>
 <head>
@@ -144,7 +168,6 @@ function shift_sort(a){
 $(document).ready(function() {
         var $tabs = $('#tabs').tabs();
 	$("a.tabref").click(function() {
-		alert($(this).attr("site"));
 		$("input[name='src']").val($(this).attr("site"));
 		loadTabFrame($(this).attr("href"), merge_url_param($(this)));
 	});
@@ -171,7 +194,7 @@ $(document).ready(function() {
 		$("a.tabref").removeAttr("uptm-url");
 		$("a.tabref[href='#tabs-1']").attr("sales-url", "sort=sale-desc");
 		$("a.tabref[href='#tabs-2']").attr("sales-url", "psort=3");
-		$("a.tabref[href='#tabs-3']").attr("sales-url", "sort=2");
+		$("a.tabref[href='#tabs-3']").attr("sales-url", "#page=1&sort=2");
 		//$("a.tabref[href='#tabs-4']").attr("sales-url", "sort=sddale-desc");
 		$("a.tabref[href='#tabs-5']").attr("sales-url", "sort=10");
 		$("a.tabref[href='#tabs-6']").attr("sales-url", "sort_type=sort_sale_amt_desc");
@@ -189,7 +212,7 @@ $(document).ready(function() {
 		$("a.tabref").removeAttr("uptm-url");
 		$("a.tabref[href='#tabs-1']").attr("cmt-url", "sort=renqi-desc");
 		$("a.tabref[href='#tabs-2']").attr("cmt-url", "psort=4");
-		$("a.tabref[href='#tabs-3']").attr("cmt-url", "sort=5");
+		$("a.tabref[href='#tabs-3']").attr("cmt-url", "#page=1&sort=5");
 		//$("a.tabref[href='#tabs-4']").attr("sales-url", "sort=sddale-desc");
 		$("a.tabref[href='#tabs-5']").attr("cmt-url", "sort=50");
 		$("a.tabref[href='#tabs-6']").attr("cmt-url", "sort_type=sort_score_desc");
@@ -207,7 +230,7 @@ $(document).ready(function() {
                 $("a.tabref").removeAttr("cmt-url");
 		$("a.tabref[href='#tabs-1']").attr("uptm-url", "auction_tag%5B%5D=1154");
 		$("a.tabref[href='#tabs-2']").attr("uptm-url", "psort=5");
-		$("a.tabref[href='#tabs-3']").attr("uptm-url", "sort=6");
+		$("a.tabref[href='#tabs-3']").attr("uptm-url", "#page=1&sort=6");
 		//$("a.tabref[href='#tabs-4']").attr("sales-url", "sort=sddale-desc");
 		$("a.tabref[href='#tabs-5']").attr("uptm-url", "sort=30");
 		$("a.tabref[href='#tabs-6']").attr("uptm-url", "sort_type=sort_last_changed_date_desc");
