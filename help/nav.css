@@ -1,0 +1,67 @@
+@charset "utf-8";
+/* 导航 */
+
+.tabHeader
+{
+	list-style:none;
+	margin:0pt;
+	padding:0pt;
+	width:415px;
+}
+.tabHeader li
+{
+	margin-right:9px;
+	font-family:微软雅黑;
+	color:#fff;
+	font-size:18px;
+	cursor:pointer;
+	float:left;
+	padding:9px;
+	text-align:center;
+	width:54px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	display:inline;
+}
+.tabHeader li:hover{
+	background:#54c2dc;
+	color:#fff;
+}
+.tabContent a {
+
+	text-decoration:none;
+	padding:0px 5px;
+	text-transform:lowercase;
+}
+.tabContainer
+{
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	float:left;
+	width:315px;
+	margin:9px 0;
+
+}
+.tabContent
+{
+	float:left;
+	padding-left:9px;
+	text-align:justify;
+	width:400px;
+	border:1px solid #cccccc;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background:#f6f6f6;
+	position:relative;
+}
+#cloud {
+}
+
+.active
+{
+	background-color:#54c2dc;
+}
+

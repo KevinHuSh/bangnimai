@@ -1,0 +1,86 @@
+/*通用*/
+
+body, h1, h2, h3, h4, h5, h6, p, form, img, div, a {
+	border:0;
+	margin:0;
+	padding:0;
+}
+div {
+	cursor:default;
+}
+
+input, select {
+	margin:0;
+}
+.noShow {
+	display:none;
+}
+.noPrint {
+	position:absolute;
+	left:-9999px;
+}
+div {
+	/*position:relative;*/
+	cursor:inherit;
+}
+body {
+	background-color:#f6f6f6;
+	font:12px Arial;
+}
+/*窄banner与城市切换*/
+#banner {
+	background:#333;;
+	height:72px;
+	border-bottom:#54c2dc solid 4px;
+	box-shadow: rgba(0, 0, 0, 0.400) -2px 1px 2px 0px;
+}
+#foot {
+	background:#eee;
+	color:#333;
+	height:72px;
+	width:810px;
+	margin-top:54px;
+	float:left;
+	border:#ddd solid 10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+#foot p{
+	height:18px;
+	margin:25px;
+}
+
+#main {
+	/*width:810px;*/
+	margin:0 auto;
+}
+.wrap {
+	width:990px;
+	margin:0 auto;
+}
+.min_wrap{
+	width:880px;
+	margin:0 auto;
+}
+/*logo*/
+.logo {
+	width:246px;
+	height:72px;
+	float:left;
+	font-size:36px;
+	color:#ffffff;
+	font-family:黑体;
+	cursor:pointer;
+}
+#logo{
+	width:246px;
+	height:106px;
+	background:url(../../villii/images/index/lg.png) no-repeat center;
+	position:absolute;
+}
+.space{
+	width:24px;
+	height:310px;
+	float:left;
+}

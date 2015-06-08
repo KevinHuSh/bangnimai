@@ -1,0 +1,200 @@
+@charset "utf-8";
+/* 兴趣流的样式 */
+#interests {
+	width:886px;
+	margin:0 7px;
+	float:left;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	display:inline;
+}
+.in_wall{
+	width:810px;
+	height:300px;
+	margin:38px 16px 0 2px;
+	display:block;
+	border:2px solid #ccc;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	box-shadow: 0 0 8px #ccc;
+	background: -webkit-gradient(linear,0% 0,0% 100%,from( #FDFAFB),to( #F0EDED),color-stop(.5, #F9F7F7),color-stop(.5, #F6F3F4));
+background: -moz-linear-gradient(center top, #FDFAFB, #F9F7F7 50%, #F6F3F4 50%, #F0EDED);
+background: -o-linear-gradient(top left, #FDFAFB, #F9F7F7 50%, #F6F3F4 50%, #F0EDED);
+background: -webkit-gradient(linear,0% 0,0% 100%,from( #FDFAFB),to( #F0EDED),color-stop(.5, #F9F7F7),color-stop(.5, #F6F3F4));
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdfafb', endColorstr='#f0eded');
+
+}
+/*兴趣前墙*/
+.in_wall_wrap {
+	cursor:pointer;
+	width:810px;
+	height:300px;
+	float:left;
+ }
+  .in_wall_p1 {
+	 font-size:72px;
+	 font-family:微软雅黑;
+	 color:#C03;
+	 margin:54px 0 0 96px;
+	 float:left;
+ }
+ .in_wall_p_tips{
+	 width:150px;
+	 height:70px;
+	 float:right;
+	 margin:15px;
+	 text-align:center;
+	 font-size:18px;
+	 letter-spacing:2px;
+	 font-family:微软雅黑;
+	 line-height:70px;
+	 border:2px solid #c3c3c3;
+	box-shadow: 0 0 8px #ccc;
+	background: -webkit-gradient(linear,0% 0,0% 100%,from( #EB5367),to( #D43638),color-stop(.5, #E04751),color-stop(.5, #DE404A));
+	background: -moz-linear-gradient(center top, #EB5367, #E04751 50%, #DE404A 50%, #D43638);
+	background: -o-linear-gradient(top left, #EB5367, #E04751 50%, #DE404A 50%, #D43638);
+	background: -webkit-gradient(linear,0% 0,0% 100%,from( #EB5367),to( #D43638),color-stop(.5, #E04751),color-stop(.5, #DE404A));
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eb5367', endColorstr='#d43638');
+	border:#b00000;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	text-shadow: rgba(255, 255, 255, 0.898) 0px 1px 0px;
+	color:#fff;
+ }
+ .in_wall_p{
+	 float:left;
+	 width:510px;
+	 font-size:27px;
+	 font-family:微软雅黑;
+	 color:#333;
+	 padding:0 150px;
+	 overflow: hidden;/*注意不要写在最后了*/
+	white-space: nowrap;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+ }
+/*兴趣后墙*/
+.in_box{
+	width:810px;
+	height:300px;
+	background:#ffffff;
+	float:left;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	display:none;
+}
+.in_name {
+	z-index:-1;
+	margin:-34px 0 0 -30px;
+	position:absolute;
+	padding:0 20px;
+	height:52px;
+	min-width:60px;
+	font-size:18px;
+	background:#cccccc ;
+	color:#fff;
+	text-align:center;
+	line-height:40px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	box-shadow: 0 0 8px #ccc;
+	display:inline;
+}
+.in_img {
+	height:270px;
+	width:270px;
+	margin:15px;
+	overflow:hidden;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	float:left;
+}
+.in_img img{
+	width:266px;
+	border:2px solid #ccc;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	cursor:pointer;
+}
+
+/*兴趣下成果九宫格*/
+.in_nine {
+	width:252px;
+	height:252px;
+	padding-top:48px;
+	float:left;
+}
+.in_nine_wrap{
+	width:222px;
+	height:222px;
+	margin:14px;
+	border:solid 1px #ccc;
+	box-shadow: 0 0 8px #ccc;
+	overflow:hidden;
+}
+.in_nine_pic{
+	float:left;
+	width:70px;
+	height:70px;
+	padding:2px;
+}
+.in_nine_pic img{
+	width:70px;
+	height:70px;
+}
+.in_revert{
+	width:60px;
+	height:30px;
+	margin:13px;
+	float:right;
+	display:inline;
+	text-align:center;
+	font-size:14px;
+	letter-spacing:3px;
+	font-family:微软雅黑;
+	color:#fff;
+	line-height:30px;
+	border:2px solid #c3c3c3;
+	box-shadow: 0 0 8px #ccc;
+	background: -webkit-gradient(linear,0% 0,0% 100%,from( #EB5367),to( #D43638),color-stop(.5, #E04751),color-stop(.5, #DE404A));
+	background: -moz-linear-gradient(center top, #EB5367, #E04751 50%, #DE404A 50%, #D43638);
+	background: -o-linear-gradient(top left, #EB5367, #E04751 50%, #DE404A 50%, #D43638);
+	background: -webkit-gradient(linear,0% 0,0% 100%,from( #EB5367),to( #D43638),color-stop(.5, #E04751),color-stop(.5, #DE404A));
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eb5367', endColorstr='#d43638');
+	border:#b00000;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	text-shadow: rgba(255, 255, 255, 0.898) 0px 1px 0px;
+	cursor:pointer;
+	
+}
+.in_more_button{
+	float:left;
+	height:60px;
+	width:120px;
+	text-align:center;
+	border:2px solid #c3c3c3;
+	box-shadow: 0 0 8px #ccc;
+	background: -moz-linear-gradient(center top, #FDFCFC, #FBF9F9 50%, #F7F5F6 50%, #F2F0F0);
+	background:-o-linear-gradient(top left, #FDFCFC, #FBF9F9 50%, #F7F5F6 50%, #F2F0F0);
+	background:-webkit-gradient(linear,0% 0,0% 100%,from( #FDFCFC),to( #F2F0F0),color-stop(.5, #FBF9F9),color-stop(.5, #F7F5F6));
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FDFCFC', endColorstr='#F7F5F6');
+	text-shadow: rgba(255, 255, 255, 0.898) 0px 1px 0px;
+	margin:161px 50px 13px 50px;
+	font-size:18px;
+	font-family:微软雅黑;
+	color:#333;
+	line-height:60px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	cursor:pointer;
+}

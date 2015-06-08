@@ -31,9 +31,9 @@
 if (strlen($ommit) > 0)
 {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "localhost:6337/search?query=".$ti."^");
+    curl_setopt($ch, CURLOPT_URL, "localhost:6337/search?query=".urlencode($ti)."^");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);      
-    curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1000);    
+    //curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1000);    
     $output = curl_exec($ch);    
 //    echo $output."\n";
 //    echo "http://localhost:6337/search?query=".$ti."^";
@@ -41,9 +41,14 @@ if (strlen($ommit) > 0)
     $json = @json_decode($output, true);
     $tks = "";
     if (array_key_exists("results", $json) && count($json['results'])>0 && array_key_exists("token",  $json['results'][0]))
+    {
+        $i = 0;
         foreach($json['results'][0]['token'] as $token )
-	    if (strlen($token) > 3)
+	    if (strlen($token) > 3 && $i < 10){
                 $tks = $tks." ".$token;
+                $i = $i + 1;
+            }
+    }
     if (strlen($tks) > 0)
 	$ti = $tks;
     curl_close($ch);
@@ -89,6 +94,18 @@ if (strlen($ommit) > 0)
 <link rel="stylesheet" href="sorts.css">
 <script src="jquery-1.10.2.js"></script>
 <script src="jquery-ui.js"></script>
+<script src="favor.js"></script>
+<!--<script src="baidu.js"></script>-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?8cfab82e21f64b64f98602742e52e3de";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
 <script language="javascript" type="text/javascript">
 
 function loadTabFrame(tab, url) {
@@ -266,6 +283,10 @@ $(document).ready(function() {
 <div>
 <p> </p>
 <p >
+<div style="height:35px;position:absolute;right:0%;" >
+	<a  href="#" onclick="AddFavorite(window.location,document.title)" > 收藏本站</a><br>
+	<a  href="#" onclick="SetHome(this, 'http://www.hello987.com')">设为首页</a>
+</div>
 	<img src="bangnibi.png"  style="position:relative;left:30%;width:7%;height:35px"/>
 	<input type="text" id="query" style="position:absolute;left:37%;width:30%;height:35px;border:2px solid #ff0000;" value="<?php echo $ti;?>" placeholder="请输入要搜索的词" lang="zh-CN" autocomplete="off" aria-haspopup="true" aria-combobox="list" role="combobox"/>
 	<!-- <img id="spSearch" src="search_btn.jpg" style="height:35px;width:80px;position:absolute;left:67%;"  onmouseover="this.style.cursor='pointer';this.style.cursor='hand'" onmouseout="this.style.cursor='default'" />
