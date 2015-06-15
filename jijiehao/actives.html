@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!-- http://jsfiddle.net/0btvczd5/2/ -->
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="css/actives.css">
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script>
+    var prevSelection = "location_page"; //"location_page";
+    $( document ).ready(function(){
+        $(".tab_page").hide();
+        $("#" + prevSelection).show();
+        $("#navbar ul li").on("click", function () {
+            var newSelection = $(this).children("a").attr("data-tab");
+            $("#" + prevSelection).hide();
+            $("#" + newSelection).show();
+            prevSelection = newSelection;
+        });
+    });
+    </script>
+</head>
+<body>
+    <div data-role="page" id="home" data-theme="a">
+        <div id="header" data-role="header" data-position="fixed"> <a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-arrow-l ui-btn-icon-notext" data-rel="back">Home</a>
+
+           <h1>活动链</h1>
+
+       </div>
+       <div class="folower_circle">
+        <div>31</div>
+        <div>关注</div>
+    </div>
+    <div class="cover">
+        <img src="http://img1.mpimg.cn/bmiddle/2014/1/8/715df15c-7578-42a4-aab5-0caee7f27455.jpg" />
+    </div>
+    <div class="person_info">
+        <div>
+            <img src="http://www.banbaocn.com/upload/2009-02/09022311173852.jpg" class="avatar_img" />
+        </div>
+        <div class="name">我是活雷锋</div>
+        <div class="name">2015-06-02</div>
+        <h4>组合：凯凯 ＋ 泉泉 ＋ XX</h4> 
+    </div>
+    <div data-role="navbar" data-iconpos="top" id="navbar">
+        <ul>
+            <li><a href="#" data-icon="location" class="ui-btn-active" data-tab="location_page">位置</a>
+
+            </li>
+            <li><a href="#" data-icon="info" data-tab="detail_page">详情</a>
+
+            </li>
+            <li><a href="#" data-icon="comment" data-tab="comment_page">评论</a>
+
+            </li>
+        </ul>
+    </div>
+    <div id="location_page" class="tab_page"> <span>北京市朝阳区天上人间</span>
+
+    </div>
+    <div id="detail_page" class="tab_page"> <span>一、管家部的大妈们,,洗洗涮涮的活,,。大部分是外地来的，也有北京内退的，一个月一千多块吧。不过所有员工都管上保险。安检也有女的，2000多一个月。 
+        　　<br>
+        　　二、D服。条件相当一般C3-C10标准。工资2500一个月。 
+        　　<br>
+        　　三、 K服。条件相当好，美女不云。A5-B2标准。三围、身高、体重、气质都有严格要求。全身艳粉色短裙，露着长长的玉腿。金银色带钻的工鞋价值900元，穿上鞋个个175以上。LV的小匙包。一个个不能说倾国倾城吧，也可以说如花似玉了。站位的时候从二行美女中穿行的时候，感觉是在星光大道上两边有人啪啪的放电，如同漫步云端。,,想必天上的嫦娥姐姐也不过如此吧,,如果你没有被电昏旋的感觉或是下身的冲动，要么你是不食人间烟火的唐僧，要么你不是男人。 </span>
+
+    </div>
+    <div id="comment_page" class="tab_page">
+        <ul data-role="listview" style="margin: 0px; padding: 0px;border: 2px solid red;">
+            <li>
+                <input type="text" name="cmt" id="cmt" placeholder="我也来说一句.." />
+            </li>
+            <li>
+                <div class="cmt_div">
+                    <img src="http://wallpapers.androlib.com/wallicons/wallpaper.big-wmD.cs.png" class="avatar_img" />
+                    <div>
+                        <div>执木子水清手</div>
+                        <div>2015-06-05</div>
+                    </div>
+                    <h6>不要过度阐释中纪委网站的评论. 强势的反腐，也使中纪委官网成为当下最受关注的网站，</h6>
+
+                </div>
+            </li>
+            <li>
+                <div class="cmt_div">
+                    <img src="http://images.sex.com/images/pinporn/2015/06/03/620/12207321.jpg?site=sex&user=onlynaturals" class="avatar_img" />
+                    <div>
+                        <div>泉泉</div>
+                        <div>2015-06-05</div>
+                    </div>
+                    <h6>下午茶可以追溯到英国17世纪时期，绵延至今，渐变成现代人休闲习惯。</h6>
+
+                </div>
+            </li>
+            <li>
+                <div class="cmt_div">
+                    <img src="http://cf.ltkcdn.net/makeup/images/std/131886-425x398-pretty1.jpg" class="avatar_img" />
+                    <div>
+                        <div>木子水清</div>
+                        <div>2015-05-022</div>
+                    </div>
+                    <h6>却是，童年时光会影响人们的一生。 17秒舍命一转，蓝天划下“凄美弧线” </h6>
+
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="sugg">
+        <ul data-role="listview">
+            <li data-role="list-divider">最佳搭配</li>
+            <li>
+                <div class="li_wraper">
+                    <img src="http://a1.att.hudong.com/73/20/19300001056348129303201436782_950.jpg" />
+                    <div class="sugg_txt">
+                        <div>
+                           <h4>下午茶</h4>
+
+                       </div>
+                       <div>xxxxxxxxxxxxxxxx</div>
+                   </div>
+               </div>
+           </li>
+           <li>
+            <div class="li_wraper">
+                <img src="http://a1.att.hudong.com/73/20/19300001056348129303201436782_950.jpg" />
+                <div class="sugg_txt">
+                    <div>
+                       <h4>下午茶</h4>
+
+                   </div>
+                   <div>xxxxxxxxxxxxxxxx</div>
+               </div>
+           </div>
+       </li>
+       <li>
+        <div class="li_wraper">
+            <img src="http://a1.att.hudong.com/73/20/19300001056348129303201436782_950.jpg" />
+            <div class="sugg_txt">
+                <div>
+                   <h4>下午茶</h4>
+
+               </div>
+               <div>xxxxxxxxxxxxxxxx</div>
+           </div>
+       </div>
+   </li>
+   <li>
+    <div class="li_wraper">
+        <img src="http://a1.att.hudong.com/73/20/19300001056348129303201436782_950.jpg" />
+        <div class="sugg_txt">
+            <div>
+               <h4>下午茶</h4>
+
+           </div>
+           <div>xxxxxxxxxxxxxxxx</div>
+       </div>
+   </div>
+</li>
+</ul>
+</div>
+<div id="footer" data-role="footer" data-position="fixed"> <a href="join.html" class="ui-btn ui-btn-inline" rel="external" >加入活动</a>
+   <a href="#" class="ui-btn ui-btn-inline">去加塞</a>
+
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!-- http://jsfiddle.net/0btvczd5/2/ -->
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+<div data-role="page" id="home">
+    <div data-role="panel" id="personalPanel" class="ui-panel"  data-theme="b">
+        <div>
+            <img src="http://www.banbaocn.com/upload/2009-02/09022311173852.jpg" />
+        </div>
+       <div>
+        <ul data-role="listview">
+            <li data-icon="calendar"><a href="schedule.html" rel="external">我的安排</a>
+            </li>
+            <li data-icon="comment"><a href="message.html" rel="external">我的消息</a>
+            </li>
+            <li data-icon="gear"><a href="setup.html" rel="external" rel="external">我的设置</a>
+            </li>
+        </ul>
+        </div>
+    </div>
+    <div id="header" data-role="header" data-position="fixed"> 
+        <a href="#personalPanel" class="ui-btn ui-corner-all ui-shadow ui-icon-bars ui-btn-icon-notext">menu</a>
+
+         <h1>集结号</h1>
+ <a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-search ui-btn-icon-notext">search</a>
+
+        <ul data-role="listview">
+            <li><a href="#">有人与你拼了地图</a>
+
+            </li>
+        </ul>
+    </div>
+    <div data-role="content">
+        <ul data-role="listview">
+            <li>
+                <a href="actives.html" rel="external" style="margin:0px;padding:0px;">
+                <div class="img_grid">
+                    <div class="ui-btn ui-btn-inline ui-icon-plus ui-btn-icon-notext ui-corner-all ui-shadowp plus_icon"></div>
+                    <div class="img_grid-a">
+                        <img src="http://www.fitingym.com/images/gym_instructor_courses_qualifications_container.jpg" class="first_col" />
+                    </div>
+                    <div class="img_grid-b">
+                        <div class="second_col">
+                            <img src="http://njnews1.com/wp-content/uploads/2014/12/gym1.jpg" class="second_col" />
+                        </div>
+                        <div class="second_col">
+                            <img src="http://fnne.ws/wp-content/uploads/2014/06/bigstock-Gym-Group-Of-People-47169021.jpg" class="second_col" />
+                        </div>
+                    </div>
+                </div></a>
+                <div class="person_info">
+                    <div>
+                        <img src="http://www.banbaocn.com/upload/2009-02/09022311173852.jpg" style="max-width:100%;height:auto;" />
+                    </div>
+                    <div class="name">我是活雷锋</div>
+                    <div class="name">2015-06-02</div>
+                    <div>
+                         <h1>组合：凯凯 ＋ 泉泉 ＋ XX</h1>
+
+                    </div>
+                </div>
+                <div class="cmt_share">
+                    <div> <a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-comment ui-btn-icon-left">评论（3）</a>
+
+                    </div>
+                    <div> <a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-heart ui-btn-icon-left">分享</a>
+
+                    </div>
+                </div>
+            </li>
+            <li data-role="list-divider">&nbsp</li>
+            <!-- ------------------------------ -->
+            <li>
+                <div class="img_grid">
+                    <div class="ui-btn ui-btn-inline ui-icon-plus ui-btn-icon-notext ui-corner-all ui-shadowp plus_icon"></div>
+                    <div class="img_grid-a">
+                        <img src="http://www.fitingym.com/images/gym_instructor_courses_qualifications_container.jpg" class="first_col" />
+                    </div>
+                    <div class="img_grid-b">
+                        <div class="second_col">
+                            <img src="http://njnews1.com/wp-content/uploads/2014/12/gym1.jpg" class="second_col" />
+                        </div>
+                        <div class="second_col">
+                            <img src="http://fnne.ws/wp-content/uploads/2014/06/bigstock-Gym-Group-Of-People-47169021.jpg" class="second_col" />
+                        </div>
+                    </div>
+                </div>
+                <div class="person_info">
+                    <div>
+                        <img src="http://www.banbaocn.com/upload/2009-02/09022311173852.jpg" style="max-width:100%;height:auto;" />
+                    </div>
+                    <div class="name">我是活雷锋</div>
+                    <div class="name">2015-06-02</div>
+                    <div>
+                         <h1>组合：凯凯 ＋ 泉泉 ＋ XX</h1>
+
+                    </div>
+                </div>
+                <div class="cmt_share">
+                    <div> <a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-comment ui-btn-icon-left">评论（3）</a>
+
+                    </div>
+                    <div> <a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-heart ui-btn-icon-left">分享</a>
+
+                    </div>
+                </div>
+            </li>
+            <li data-role="list-divider">&nbsp</li>
+            <!-- ------------------------------ -->
+        </ul>
+    </div>
+    <div id="footer" data-role="footer" data-position="fixed">
+        <div>
+            <input type="range" name="points" id="points" value="50" min="0" max="100" data-mini="true" data-highlight="true" />
+        </div>
+        <div> <a href="#anylink" class="ui-btn ui-btn-inline">Button</a>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

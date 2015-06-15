@@ -1,0 +1,36 @@
+
+
+<img src="#avatar#" class="avatar"/>
+<div class="group-img">
+	<a href="#activity"  gid="#gid#">
+		<span class="left-img">
+			<img src="#img1#" />
+		</span>
+		<span class="right-img">
+			<div><img src="#img2#" /></div>
+			<div><img src="#img3#" /></div>
+		</span>
+
+	</a>
+</div>
+<div class="user-info">
+	<!-- <span><img src="http://img.blog.163.com/photo/8nVgS_p8P0dXqYvJfHQ6Rw==/1137440380888679767.jpg" class="avatar trans_center"/></span> -->
+	<span class="user-name">#name#</span>
+	<span class="date">#tm#</span>
+</div>
+<div class="title">
+	组合： #title#
+</div>
+<div class="cmt-and-share">
+	<span>
+		<span class="icon-e" style="height:35px;width:35px;margin:25px;left:30px;"></span>
+		<span style="width:auto;left:25px;">评论</span>
+		<span style="width:auto;left:65px;">#cmt_count#</span>
+	</span>
+	<SPAN>
+		<a href="#">
+			<span class="icon-l" style="height:35px;width:35px;margin:25px;left:60px;"></span>
+			<span style="width:auto;left:45px;">分享</span>
+		</a>
+	</SPAN>
+</div>

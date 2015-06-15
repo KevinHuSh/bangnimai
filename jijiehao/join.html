@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!-- http://jsfiddle.net/0btvczd5/2/ -->
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="css/join.css">
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="http://dev.jtsage.com/cdn/spinbox/latest/jqm-spinbox.min.js"></script>
+</head>
+<body>
+<div data-role="page" id="home" data-theme="a">
+    <div id="header" data-role="header" data-position="fixed"> <a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-arrow-l ui-btn-icon-notext" data-rel="back">Home</a>
+
+         <h1>加入活动</h1>
+
+    </div>
+    <ul style="margin: 0px; padding: 0px;border: 1px solid #c0c0c0;background-color:white;">
+        <li>
+            <div class="li_wraper">
+                <img src="http://a1.att.hudong.com/73/20/19300001056348129303201436782_950.jpg" />
+                <div class="act_txt">
+                    <p style="color:red;font-size:20px;">下午茶
+                    </p>
+                    <p>条件相当好，美女不云。A5-B2标准。三围、身高、体重、气质都有严格要求。全身艳粉色短裙，露着长长的玉腿。</p>
+                </div>
+                <a href="#" class="ui-btn">预定</a>
+            </div>
+        </li>
+        <li>
+            <div class="li_wraper">
+                <img src="http://a1.att.hudong.com/73/20/19300001056348129303201436782_950.jpg" />
+                <div class="act_txt">
+                    <p style="color:red;font-size:20px;">下午茶
+                    </p>
+                    <p>条件相当好，美女不云。A5-B2标准。三围、身高、体重、气质都有严格要求。全身艳粉色短裙，露着长长的玉腿。</p>
+                </div>
+                <a href="#" class="ui-btn">预定</a>
+            </div>
+        </li>
+        <li>
+            <div class="li_wraper">
+                <img src="http://a1.att.hudong.com/73/20/19300001056348129303201436782_950.jpg" />
+                <div class="act_txt">
+                    <p style="color:red;font-size:20px;">下午茶
+                    </p>
+                    <p>条件相当好，美女不云。A5-B2标准。三围、身高、体重、气质都有严格要求。全身艳粉色短裙，露着长长的玉腿。</p>
+                </div>
+                <a href="#" class="ui-btn">预定</a>
+            </div>
+        </li>
+    </ul>
+    <ul style="margin: 0px; padding: 0px;border: 1px solid #c0c0c0;width:100%;margin-top: 10px;background-color:white;">
+        <li class="input_li">
+            <span>预计人数：</span>
+            <div class="input_div">
+            <input type="text" data-role="spinbox" name="spin" id="spin" data-options='{"type":"horizontal"}' value="3" min="0" max="50"/>
+            </div>
+        </li>
+        <li class="input_li">
+            <span>提醒时间：</span>
+            <div class="input_div">06/22/15 19:00 - 19:30</div>
+        </li>
+        <li class="input_li">
+            <span>他人可参与：</span>
+            <div class="input_div">
+                <input type="checkbox" data-role="flipswitch" name="switch" id="switch" data-on-text="是" data-off-text="否" />
+                </div>
+        </li>
+        <li class="input_li">
+            <span>联系方式：</span>
+            <div class="input_div">
+                <input type="text" />
+            </div>
+        </li>
+        <li class="input_li">
+            <span>留言备注：</span>
+            <div class="input_div">
+                <input type="text" />
+            </div>
+        </li>
+        <li class="input_li">
+            <span>计划名称：</span>
+            <div class="input_div" style="color:red;">世界这么大出去看看吧！</div>
+        </li>
+    </ul>
+    <ul style="margin: 0px; padding: 0px;border: 1px solid #c0c0c0;margin-top: 10px;background-color:white;">
+        <li class="input_li">
+            <a href="#" class="ui-btn"  style="background-color: red !important;color: white  !important;">确定</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

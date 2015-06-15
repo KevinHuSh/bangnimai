@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<!-- http://jsfiddle.net/0btvczd5/2/ -->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=0.5 maximum-scale=3, user-scalable=yes">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+	<link rel="stylesheet" href="css/home.css">
+	<link rel="stylesheet" href="css/icons.css">
+	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="js/home.js?v=?"></script>
+</head>
+<body>
+	<div data-role="page" id="activity" style="background-color:white;">
+		<div class="header "></div>
+		<div class="header position-fixed">
+			<div>
+				<a href="#home">
+					<span class="left-btn icon-n back-arrow">
+					</span>
+					<span style="width:auto;font-size:24pt;color:#666666;">返回</span>
+				</a>
+				<span class="header-title" style="left:120px;text-align:left;">
+					活动链
+				</span>
+			</div>
+		</div>
+		<div id="v_main_act_info">
+		<img src="http://img.blog.163.com/photo/8nVgS_p8P0dXqYvJfHQ6Rw==/1137440380888679767.jpg" class="avatar position-avatar"/>
+		<div class="cover">
+			<img src="https://s-media-cache-ak0.pinimg.com/736x/e6/3f/7f/e63f7f8cecbb6653372adfab28ccc591.jpg"/>
+		</div>
+		<div class="user-info">
+			<!-- <span><img src="http://img.blog.163.com/photo/8nVgS_p8P0dXqYvJfHQ6Rw==/1137440380888679767.jpg" class="avatar trans_center"/></span> -->
+			<span class="user-name">我是KFC</span>
+			<span class="date">2015-06-11 12:30</span>
+		</div>
+		<div class="title">
+			组合： 早餐＋中餐＋足球
+		</div>
+		<div class="tabs">
+			<span show-tab="location">位置</span>
+			<span show-tab="detail">详情</span>
+			<span show-tab="comments">评论</span>
+		</div>
+		<div id="location">
+			<span class="icon-2" style="height:27px;width:20px;margin:15px;left:10px;"></span>
+			<span style="width:580px;background-color: #ebebeb;">王姐，意外怀孕了怎么办？去大铁棍子医院，找捅主任，今天做手术，明天就上班  </span>
+		</div>
+		<div id="detail">
+			<span style="width:580px;background-color: #ebebeb;">
+
+				王姐，意外怀孕了怎么办？ 
+				去大铁棍子医院，找捅主任，今天做手术，明天就上班  
+
+				王姐，我又意外怀孕了怎么办？ 
+				不是告你了么，去大铁棍子医院，找捅主任，今天做手术，明天就上班  
+
+				王姐，我又意外怀孕了怎么办？ 
+				……………………你们是没别的事了吧~~~~~~~~~ 
+
+				关注本小站，再也不用担心意外怀孕了，保证你每天能开开心心的去上班！ 
+				嘿！我们是教育人的！【严肃】【捂嘴偷笑】。。。矮油油。。。真的！！！ 
+			</span>
+		</div>
+		</div>
+		<div id="comments" class="comments" style="display: none;">
+			<div><input type="text" name="cmt" id="cmt" placeholder="我也来说一句.." /></div>
+			<div style="max-height:600px;overflow:scroll;" id="cmts-frame">
+<!--				<div class="cmt-frame">
+					<div>
+						<span style="width:94px;height:100%;">
+							<img src="http://img.blog.163.com/photo/8nVgS_p8P0dXqYvJfHQ6Rw==/1137440380888679767.jpg" class="avatar"/>
+						</span>
+						<span style="width:400px;">
+							<div style="font-size:20pt;line-height:46px;height:46px;">Kevin</div>
+							<div>
+								<span class="icon-3" style="width:25px; height:25px;margin:5px;"></span>
+								<span style="width:auto; left:10px;font-size:20pt;">2015-04-09</span>
+							</div>
+						</span>
+					</div>
+					<div>
+						不是告你了么，去大铁棍子医院，找捅主任，今天做手术，明天就上班 
+					</div>
+				</div>
+				<div class="cmt-frame">
+					<div>
+						<span style="width:94px;height:100%;">
+							<img src="http://img.blog.163.com/photo/8nVgS_p8P0dXqYvJfHQ6Rw==/1137440380888679767.jpg" class="avatar"/>
+						</span>
+						<span style="width:400px;">
+							<div style="font-size:20pt;line-height:46px;height:46px;">Kevin</div>
+							<div>
+								<span class="icon-3" style="width:25px; height:25px;margin:5px;"></span>
+								<span style="width:auto; left:10px;font-size:20pt;">2015-04-09</span>
+							</div>
+						</span>
+					</div>
+					<div>
+						不是告你了么，去大铁棍子医院，找捅主任，今天做手术，明天就上班 
+					</div>
+				</div> -->
+			</div>
+		</div>
+		<div style="height:80px;line-height:80px; border-bottom:1px solid #ebebeb; font-size: 24pt;">
+			<span style="border-left: 5px solid red;width:2px;margin:25px;height:24pt;"></span>最佳搭配
+		</div>
+		<div id="attaches">
+		<div class="attach">
+			<span>
+				<img src="http://pas-wordpress-media.s3.amazonaws.com/wp-content/uploads/2014/03/Culture-Eats-Strategy-For-Breakfast.jpg" class="act-avatar trans_center"/>
+			</span>
+			<span>
+				<div>
+					<span class="sugg">推荐</span>
+					<span>下午茶</span>
+				</div>
+				<div style="height:60px; line-height:60px;font-size:20pt;color:#999999;">
+					去大铁棍子医院，找捅主任，今天做手术，明天就上班
+				</div>
+			</span>
+			<span class="switch icon-i" style="width:50px;height:50px;top:45px;left:10px;"></span>
+		</div>
+		<div class="attach">
+			<span>
+				<img src="http://pas-wordpress-media.s3.amazonaws.com/wp-content/uploads/2014/03/Culture-Eats-Strategy-For-Breakfast.jpg" class="act-avatar trans_center"/>
+			</span>
+			<span>
+				<div>
+					<span class="sugg" sytle="display:none;">推荐</span>
+					<span>下午茶</span>
+				</div>
+				<div style="height:60px; line-height:60px;font-size:20pt;color:#999999;">
+					去大铁棍子医院，找捅主任，今天做手术，明天就上班
+				</div>
+			</span>
+			<span class="switch icon-f" style="width:50px;height:50px;top:45px;left:10px;"></span>
+		</div>
+		<div class="attach">
+			<span>
+				<img src="http://pas-wordpress-media.s3.amazonaws.com/wp-content/uploads/2014/03/Culture-Eats-Strategy-For-Breakfast.jpg" class="act-avatar trans_center"/>
+			</span>
+			<span>
+				<div>
+					<span class="sugg" sytle="display:none;">推荐</span>
+					<span>下午茶</span>
+				</div>
+				<div style="height:60px; line-height:60px;font-size:20pt;color:#999999;">
+					去大铁棍子医院，找捅主任，今天做手术，明天就上班
+				</div>
+			</span>
+			<span class="switch icon-f" style="width:50px;height:50px;top:45px;left:10px;"></span>
+		</div>
+		<div class="attach"></div>
+	</div>
+		<div class="footer">
+			<span class="trans_vertical"><a href="">去加塞</a></span>
+			<span class="trans_vertical"><a href="">创建安排</a></span>
+		</div>
+	</div>
+
+
+	<div data-role="page" id="home">
+		<div class="side-panel" style="background: url(icons/setting.bg.png) no-repeat;"></div>
+		<div class="side-panel pannel-cover"></div>
+		<div id="personalPanel" class="side-panel">
+			<div>
+				<img src="http://www.banbaocn.com/upload/2009-02/09022311173852.jpg" class="avatar trans_center"/>
+			</div>
+			<div>
+				<ul>
+					<li><a href="schedule.html"><span class="icon-y"></span>我的安排</a>
+					</li>
+					<li><a href="message.html"><span class="icon-v"></span>我的消息</a>
+					</li>
+					<li><a href="setup.html"><span class="icon-7"></span>我的设置</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="header "></div>
+		<div class="header position-fixed">
+			<div>
+				<a href="#personalPanel">
+					<span class="left-btn icon-1a">
+					</span>
+				</a>
+				<span class="header-title">
+					集结号
+				</span>
+				<a href = "#" > 
+					<span class="right-btn icon-b">
+					</a>
+				</span>
+
+			</div>
+		</div>
+		<div id="tip">
+			<span class="left-btn icon-2a"></span>
+			<span>有人与你拼地图</span>
+			<a href="#"><span class="right-btn icon-u"></span></a>
+
+		</div>
+
+		<div class="act-group" id="group1">
+			<img src="http://img.blog.163.com/photo/8nVgS_p8P0dXqYvJfHQ6Rw==/1137440380888679767.jpg" class="avatar"/>
+			<div class="group-img">
+				<a href="#activity" gid="1">
+					<span class="left-img">
+						<img src="http://i.huffpost.com/gen/1439523/images/o-BREAKFAST-HEALTHY-facebook.jpg" />
+					</span>
+					<span class="right-img">
+						<div>
+							<img src="http://pas-wordpress-media.s3.amazonaws.com/wp-content/uploads/2014/03/Culture-Eats-Strategy-For-Breakfast.jpg" />
+						</div>
+						<div>
+							<img src="http://img.rt.com/files/sport/football/russia-italy-match-fixing-102/andorra-russia-uefa-2012.si.jpg" />
+						</div>
+					</span>
+
+				</a>
+			</div>
+			<div class="user-info">
+				<!-- <span><img src="http://img.blog.163.com/photo/8nVgS_p8P0dXqYvJfHQ6Rw==/1137440380888679767.jpg" class="avatar trans_center"/></span> -->
+				<span class="user-name">我是KFC</span>
+				<span class="date">2015-06-11 12:30</span>
+			</div>
+			<div class="title">
+				组合： 早餐＋中餐＋足球
+			</div>
+			<div class="cmt-and-share">
+				<span>
+					<span class="icon-e" style="height:35px;width:35px;margin:25px;left:30px;"></span>
+					<span style="width:auto;left:25px;">评论</span>
+					<span style="width:auto;left:65px;">12</span>
+				</span>
+
+				<SPAN><a href="#">
+					<span class="icon-l" style="height:35px;width:35px;margin:25px;left:60px;"></span>
+					<span style="width:auto;left:45px;">分享</span>
+				</a>
+			</SPAN>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<div class="cmt-frame">
+	<div>
+		<span style="width:94px;height:100%;">
+			<img src="#img#" class="avatar"/>
+		</span>
+		<span style="width:400px;">
+			<div style="font-size:20pt;line-height:46px;height:46px;">#name#</div>
+			<div>
+				<span class="icon-3" style="width:25px; height:25px;margin:5px;"></span>
+				<span style="width:auto; left:10px;font-size:20pt;">#tm#</span>
+			</div>
+		</span>
+	</div>
+	<div>
+		#cmt#
+	</div>
+</div>

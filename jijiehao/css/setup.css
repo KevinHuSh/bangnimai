@@ -1,0 +1,48 @@
+div, ul, img, p, span, li {
+    position:relative;
+    float: left;
+    left: 0px;
+    top: 0px;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    list-style-type: none;
+    /*    border: 1px solid red;*/
+}
+.act_avatar, .avatar {
+    float: left;
+    display: inline;
+    width:50px;
+    height:50px;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    left:50%;
+    top:50%;
+}
+.row {
+    height: 60px;
+    line-height: 60px;
+    background-color:white;
+    border-bottom: 1px solid #c0c0c0;
+}
+.row_name {
+    width:20%;
+    left:10px;
+    height:60px;
+    line-height: 60px;
+}
+.row_value {
+    width:20px;
+    float:right;
+    height:60px;
+    color: #c0c0c0;
+}

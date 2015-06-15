@@ -1,0 +1,26 @@
+<img src="#img#" class="avatar position-avatar"/>
+<div class="cover">
+	<img src="#cover_img#"/>
+</div>
+<div class="user-info">
+	<!-- <span><img src="http://img.blog.163.com/photo/8nVgS_p8P0dXqYvJfHQ6Rw==/1137440380888679767.jpg" class="avatar trans_center"/></span> -->
+	<span class="user-name">#name#</span>
+	<span class="date">#tm#</span>
+</div>
+<div class="title">
+	组合： #title#
+</div>
+<div class="tabs">
+	<span show-tab="location" style="color:red;border-bottom:2px solid red;">位置</span>
+	<span show-tab="detail">详情</span>
+	<span show-tab="comments" aid="#main_aid#">评论</span>
+</div>
+<div id="location">
+	<span class="icon-2" style="height:27px;width:20px;margin:15px;left:10px;"></span>
+	<span style="width:580px;background-color: #ebebeb;margin-top:10px;">#addr#</span>
+</div>
+<div id="detail">
+	<span style="width:580px;background-color: #ebebeb;">
+		#detail#
+	</span>
+</div>
