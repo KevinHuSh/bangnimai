@@ -1,0 +1,19 @@
+
+<div class="title">
+	<font color="red">#name#</font>#summary#
+</div>
+<div id="act_table-acts">
+	#_#
+</div>
+<div style="height:110px;font-size:24pt;color:#999999;margin-top:20px;">
+	<span style="width:120px;height:100%;">
+		<img src="http://img.blog.163.com/photo/8nVgS_p8P0dXqYvJfHQ6Rw==/1137440380888679767.jpg" class="avatar trans_center"/>
+	</span>
+	<span style="width:490px;max-height:100%;padding:5px;" class="trans_vertical">
+		#info#
+	</span>
+</div>
+<div style="height:110px;line-height:110px;font-size:24pt;color:#999999;margin-top:20px;text-align:center;margin-top:2px;">
+	联系方式：<font color="red">#phone# </font>
+</div>
+

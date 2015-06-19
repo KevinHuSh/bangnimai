@@ -1,7 +1,7 @@
 
 <div class="attach">
 	<span>
-		<a href="#" aid="#aid#">
+		<a href="#create_group" >
 		<img src="#cover_img#" class="act-avatar trans_center"/>
 	</a>
 	</span>
@@ -14,5 +14,5 @@
 			#title#
 		</div>
 	</span>
-	<span class="switch icon-i" style="width:50px;height:50px;top:45px;left:10px;"></span>
+	<span class="switch icon-i" style="width:50px;height:50px;top:45px;left:10px;" aid="#aid#"></span>
 </div>

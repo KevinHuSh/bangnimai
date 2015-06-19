@@ -1,0 +1,12 @@
+
+			<span style="width:180px;height:100%;border-right:1px solid #ebebeb;">
+				<div style="height:110px;margin-top:10px">
+					<img src="#cover_img#" class="act-avatar trans_center"/>
+				</div>
+				<div style="font-size:15pt;text-align: center;color:red;height:30px;line-height:30px;">
+					#category#
+				</div>
+				<div style="font-size:15pt;text-align: center;color:#999999;height:30px;line-height:30px;padding:5px;">
+					#title#
+				</div>
+			</span>

@@ -1,0 +1,17 @@
+<div class="act">
+		<span style="width:160px;height:100%;">
+			<img src="#cover_img#" class="act-avatar trans_center"/>
+		</span>
+		<span style="width:250px;margin-right:30px;">
+			<div style="max-height:100%;height:auto;" class="trans_vertical">
+				<div style="height:50px;color:red;font-size:24pt;">#category#</div>
+				<div style="height:auto;color:#999999;font-size:20pt;">#title#</div>
+			</div>
+		</span>
+		<span  style="height:209px;width:180px;border-bottom: 1px solid #ebebeb;border-left: 1px solid #ebebeb;color:#999999;text-align:center;">
+			<div class="trans_center">
+				<div style="font-size:24pt;">早上</div>
+				<div style="font-size:20pt;">9:00 - 11:00</div>
+			</div>
+		</span>
+	</div>

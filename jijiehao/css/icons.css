@@ -20,6 +20,17 @@
 	-moz-background-size: 100% 100%; /*  Firefox  */
 }
 
+.icon-1{
+	width:auto;
+	height:auto;
+	background: url(../icons/1.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
 .icon-2a{
 	width:auto;
 	height:auto;
@@ -145,6 +156,73 @@
 	width:auto;
 	height:auto;
 	background: url(../icons/f.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-j{
+	width:auto;
+	height:auto;
+	background: url(../icons/j.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-m{
+	width:auto;
+	height:auto;
+	background: url(../icons/m.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-g{
+	width:auto;
+	height:auto;
+	background: url(../icons/g.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-z{
+	width:auto;
+	height:auto;
+	background: url(../icons/z.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-5{
+	width:auto;
+	height:auto;
+	background: url(../icons/5.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+
+.icon-h{
+	width:auto;
+	height:auto;
+	background: url(../icons/h.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	-webkit-background-size: 100% 100%; /*  Safari  */

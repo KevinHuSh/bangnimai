@@ -1,3 +1,8 @@
+var userID = '5';
+userName = "Kevin";
+var userLongtitude = 0;
+var userLatitude = 0;
+
 function group_img_auto_fitin(groupid)
 {
 	$("#"+groupid+" .left-img > img").load(function() {
@@ -88,6 +93,14 @@ function switch_location_detail_comment(groupid)
 		$(this).css("color", "red");
 		$(this).css("border-bottom", "2px solid red");
 	});
+
+	$("#cmt").bind("change", function(event){
+		$.getJSON(
+			"http://jijiehao.hello987.com/db_driver.php?method=comment&uid=" + userID +"&aid="+$("span[show-tab='comments']").attr("aid")+"&cmt="+$("#cmt").val()+"&cb=?", 
+			function(data){
+				loadComments($("span[show-tab='comments']").attr("aid"));
+			});  
+	});
 }
 
 function show_my_setting()
@@ -127,7 +140,7 @@ function init_goto_activity(groupid){
 					switch_location_detail_comment(groupid);
 					showComments();
 				});
-		});
+			});
 
 		showAttaches(gid);
 	});
@@ -150,12 +163,11 @@ function load_group_list(){
 			//alert(data);
 		});
 }
-
-function showComments(){
-	$("span[show-tab='comments']").click(function(){
+function loadComments(aid)
+{
 		$("#cmts-frame").html("");
 		$.getJSON(
-			"http://jijiehao.hello987.com/db_driver.php?method=v_comment&aid=" + $(this).attr("aid") + "&cb=?",
+			"http://jijiehao.hello987.com/db_driver.php?method=v_comment&aid=" + aid + "&cb=?",
 			function(data){
 				$.get("templates/comment.template", function(html){
 					for (var i = 0; i < data.length; i++) {
@@ -164,7 +176,12 @@ function showComments(){
 						$("#cmts-frame").append(raw);
 					}
 				});
-		});
+			});
+}
+
+function showComments(){
+	$("span[show-tab='comments']").click(function(){
+		loadComments($(this).attr("aid"));
 	});
 }
 
@@ -189,7 +206,7 @@ function showAttaches(gid){
 				$("#attaches").html("");
 				for (var i = 0; i < data.length; i++) {
 					var raw=replace_template(html, ["aid", "cover_img", "category", "title"], data[i]);
-					alert(raw);
+					//alert(raw);
 					$("#attaches").append(raw);
 				}
 				$("#attaches").append("<div class=\"attach\">");
@@ -198,8 +215,185 @@ function showAttaches(gid){
 		});
 }
 
+function init_create_group()
+{
+	$("#activity a[href='#create_group']").click(function(){
+
+		var aids = $("span[show-tab='comments']").attr("aid") ;
+		$("#activity .icon-i").each(function(){
+			aids += "," + $(this).attr("aid");
+		});
+
+		alert(aids);
+		$.getJSON(
+			"http://jijiehao.hello987.com/db_driver.php?method=v_acts&aids=" + aids + "&cb=?",
+			function(data){
+				$.get("templates/acts.act.template", function(html){
+					$("#acts").html("");
+					for (var i = 0; i < data.length; i++) {
+						var raw=replace_template(html, ["aid", "cover_img", "category", "title"], data[i]);
+						$("#acts").append(raw);
+					}
+				});
+			});
+	});
+}
+
+function init_whereto()
+{
+	$("#activity a[href='#whereto']").click(function(){
+
+		var aid = $("span[show-tab='comments']").attr("aid") ;
+		$.getJSON(
+			"http://jijiehao.hello987.com/db_driver.php?method=v_stuck_in&aid=" + aid + "&cb=?",
+			function(data){
+				$.get("templates/whereto.row.template", function(html){
+					$("#whereto-rows").html("");
+					for (var i = 0; i < data.length; i++) {
+						var raw=replace_template(html, ["img", "name", "gid"], data[i]);
+						var imgs = data[i]["cover_imgs"].split(",");
+						for (var j = 0; j < imgs.length; j++) 
+							raw = raw.replace("#_#", "<span><img src='"+imgs[j]+"' class='act-avatar trans_center'/></span>#_#");
+						raw = raw.replace("#_#", "");
+						$("#whereto-rows").append(raw);
+					}
+					init_act_table();
+				});
+			});
+	});
+}
+
+
+function init_act_table()
+{
+	$("#whereto a[href='#act_table']").click(function(){
+
+		var gid = $(this).attr("gid") ;
+		var ismine = $(this).attr("ismine") ;
+		$("#applications").html("");
+		$("#act_table .footer").hide();
+		$("#applying").show();
+
+		alert(gid);
+		$.getJSON(
+			"http://jijiehao.hello987.com/db_driver.php?method=v_act_table&gid=" + gid + "&cb=?",
+			function(data){
+				$.get("templates/act_table.template", function(html){
+					$("#act_table-content").html("");
+					var raw=replace_template(html, ["img", "name", "summary", "phone", "info"], data[0]);
+					$.get("templates/act_table.act.template", function(act){
+						for (var i = 0; i < data.length; i++) {
+							raw = raw.replace("#_#", replace_template(act, ["category", "title","cover_img"], data[i])+"#_#");
+						}
+						raw = raw.replace("#_#", "");
+						$("#act_table-content").html(raw);
+					});
+				});
+			});
+
+		if(parseInt(ismine) != 1)return;
+
+
+		$("#applying").hide();
+		$("#act_table .footer").show();
+		$.get("templates/act_table.app.template", function(app){
+			$.getJSON(
+				"http://jijiehao.hello987.com/db_driver.php?method=v_message&gid=" + gid + "&cb=?",
+				function(uinfo){
+					for (var i = 0; i < uinfo.length; i++) {
+						var raw = replace_template(app, ["img" , "name"], uinfo[i]);
+						if (parseInt(uinfo[i]["approved"]) == 1){//1 applying, 2. approved, 3. rejected
+							raw = raw.replace("#rej-appr-sty#", "approve");
+							raw = raw.replace("#rej-appr#", "阻止");
+						}
+						else{
+							raw = raw.replace("#rej-appr-sty#", "reject");
+							raw = raw.replace("#rej-appr#", "同意");
+						}
+						$("#applications").append(raw);
+					}
+					if(uinfo.length > 0)$("#applications").append("<div class='row'></div>");
+					alert($("#app-number").text());
+					$("#app-number").text(uinfo.length.toString());
+			});
+		});
+
+	});
+}
+
+function init_show_messages(){
+	$("#home a[href='#messages']").click(function(){
+
+		var uid = $(this).attr("uid") ;
+		$("#messages-rows").html("");
+		$.get("templates/messages.row.template", function(html){
+			$.getJSON(
+				"http://jijiehao.hello987.com/db_driver.php?method=v_message&uid=" + uid + "&cb=?",
+				function(data){
+					for (var i = 0; i < data.length; i++) {
+						var raw = replace_template(html, ["name", "summary", "img"], data[i]);
+						if (parseInt(data[i]["approved"]) == 1){
+							raw = raw.replace("#icon#", "icon-g");
+						}else{
+							raw = raw.replace("#icon#", "icon-z");
+						}
+						$("#messages-rows").append(raw);
+					};
+				});
+		});
+	});
+}
+
+function init_show_schedule(){
+	$("#home a[href='#myschedule']").click(function(){
+
+		var uid = $(this).attr("uid") ;
+		$("#myschedule-rows").html("");
+		$.get("templates/myschedule.row.template", function(html){
+			$.getJSON(
+				"http://jijiehao.hello987.com/db_driver.php?method=v_app&uid=" + uid + "&cb=?",
+				function(data){
+					for (var i = 0; i < data.length; i++) {
+						var raw = replace_template(html, ["name", "gid", "img"], data[i]);
+						if (parseInt(data[i]["approved"]) != 2){
+							raw = raw.replace("#color#", "red");
+							raw = raw.replace("#status#", "申请中");
+						}else if (parseInt(data[i]["approved"]) == 2){
+							raw = raw.replace("#color#", "blue");
+							raw = raw.replace("#status#", "已加入");
+						}
+						$("#myschedule-rows").append(raw);
+					};
+					load_schedule_cells();
+				});
+		});
+	});
+}
+
+function load_schedule_cells()
+{
+	$.get("templates/myschedule.act.template", function(html){
+		$("#myschedule-rows .acts").each(function(){
+			var gid = $(this).attr("gid");
+			var obj = $(this);
+			$(obj).html("");
+			$.getJSON(
+				"http://jijiehao.hello987.com/db_driver.php?method=v_act_table&gid=" + gid + "&cb=?",
+				function(data){
+					for (var i = 0; i < data.length; i++) {
+						var raw = replace_template(html, ["cover_img", "title", "category"], data[i]);
+						$(obj).append(raw);
+					};
+				});
+		});
+	});
+}
+
+
 $(document).ready(function(){
 	//load_group("group2", JSON.parse("{\"0\":\"http:\/\/i1.s2.dpfile.com\/pc\/mc\/17378603f970b8f66d066b8301e8e812(450c280)\/aD0yODAmaz0vcGMvbWMvMTczNzg2,http:\/\/i3.s2.dpfile.com\/pc\/mc\/a6143b8d355b32464d5bef9c94ae1c13(450c280)\/aD0yODAmaz0vcGMvbWMvYTYxNDNi,http:\/\/i2.dpfile.com\/pc\/82656d378658cc0e69af20133e3938f1\/29619112_m.jpg\",\"imgs\":\"http:\/\/i1.s2.dpfile.com\/pc\/mc\/17378603f970b8f66d066b8301e8e812(450c280)\/aD0yODAmaz0vcGMvbWMvMTczNzg2,http:\/\/i3.s2.dpfile.com\/pc\/mc\/a6143b8d355b32464d5bef9c94ae1c13(450c280)\/aD0yODAmaz0vcGMvbWMvYTYxNDNi,http:\/\/i2.dpfile.com\/pc\/82656d378658cc0e69af20133e3938f1\/29619112_m.jpg\",\"1\":\"19\",\"follower_no\":\"19\",\"2\":\"\u609f\u7a7a\",\"name\":\"\u609f\u7a7a\",\"3\":\"http:\/\/ww1.sinaimg.cn\/mw600\/a00dfa2agw1esxqmyg89wj20f00820v5.jpg\",\"img\":\"http:\/\/ww1.sinaimg.cn\/mw600\/a00dfa2agw1esxqmyg89wj20f00820v5.jpg\",\"4\":\"\u4e0b\u5348\u8336 +\u4e0b\u5348\u8336 +\u805a\u9910\",\"title\":\"\u4e0b\u5348\u8336 +\u4e0b\u5348\u8336 +\u805a\u9910\",\"5\":\"2015-11-11 00:00:00\",\"tm\":\"2015-11-11 00:00:00\",\"6\":null,\"cmt_count\":null,\"7\":\"3542529.39704345\",\"dist\":\"3542529.39704345\"}"));
 	load_group_list();
 	show_my_setting();
+	init_show_messages();
+	init_show_schedule();
 });

@@ -1,4 +1,11 @@
-		
+var userID = "5";
+var userName = "Keivin";
+var herLongtitude = 0;
+var herLatitude = 0;
+var herAddr = "";
+
+var userLongtitude = 0;
+var userLatitude = 0;
 
 var map = new AMap.Map("amap", {
 	resizeEnable: true
@@ -16,7 +23,6 @@ function init_amap(){
 }
 
 function placeSearch(addr, curr){
-
 	if (typeof addr === "undefined"
 		|| addr.length == 0)
 		addr = '涞寅路658弄';
@@ -28,15 +34,11 @@ function placeSearch(addr, curr){
 		        });;
 		MGeocoder.getLocation(addr, function(status, result){
 			if(status === 'complete' && result.info === 'OK'){
-				
 				var geocode = new Array();
 				geocode = result.geocodes;
 				for (var i = 0; i < geocode.length && i<1; i++) {
-					if (curr == 0 && typeof marker[curr] != "undefined"){
+					if (curr == 0 && typeof marker[curr] != "undefined")
 						marker[curr].setMap(null);
-						userLongtitude = geocode[i].location.getLng();
-						userLatitude = geocode[i].location.getLat();
-					}
 					addmarker(curr, geocode[i].location.getLng(), geocode[i].location.getLat(), geocode[i].formattedAddress);
 				}  
 				map.setFitView();
@@ -64,6 +66,7 @@ function addmarker(i, lngX, latY, formattedAddress) {
 
 	var aa = function(e){infoWindow.open(map,mar.getPosition());};  
 	AMap.event.addListener(mar,"mouseover",aa);  
+	return mar;
 }
 
 
@@ -78,15 +81,18 @@ function setCurrAddr()
 		});
 		geocoder.getAddress(lnglatXY, function(status, result){
 			if(status === 'complete' && result.info === 'OK'){
-				$("#change-location").val(result.regeocode.formattedAddress);
-				$("#curr_addr").text(result.regeocode.formattedAddress);
-
-				addmarker(0, userLongtitude, userLatitude, result.regeocode.formattedAddress);
-
+				setAddr(result.regeocode.formattedAddress);
+				addmarker(1, userLongtitude, userLatitude, result.regeocode.formattedAddress);
 				map.setFitView();
 			}
 		});
 	});
+}
+
+function setAddr(addr){
+	//$("#change-location").val(addr);
+	//$("#curr_addr").text(addr);
+	$("#start-point").text(addr);
 }
 
 var onSuccess = function(position) {
@@ -102,7 +108,6 @@ var onSuccess = function(position) {
 	userLongtitude = position.coords.longitude;
 	userLatitude = position.coords.latitude;
 
-	init_amap();
 	setCurrAddr();
 };
 
@@ -111,52 +116,60 @@ function onError(error) {
 		'message: ' + error.message + '\n');
 }
 
-function init_remove(){
-	$(".remove").off("click").click(function(e){
-		var wid = $(this).attr("wid");
-		marker[$(this).attr("curr")].setMap(null);
-		map.setFitView();
-		gathers.delete(wid);
-		$(this).parent().hide(1000);
-		e.stopPropagation(); 
-		$.getJSON(
-			"http://jijiehao.hello987.com/db_driver.php?method=del_gather&wid=" + wid + "&cb=?",
-			function(data){
+function replace_template(raw, flds, json)
+{
+	for (var i = 0; i < flds.length; i++) {
+		if (json[flds[i]] === null)json[flds[i]] = "";
+		raw = raw.replace("#"+flds[i]+"#", json[flds[i]]);
+	}
 
-			});
-	});
+	return raw;
 }
 
-function init_delete(){
-	$(".delete").off("click").click(function(e){
-		$(this).removeClass('delete',1000);
-		$(this).addClass('remove',1000);
-		$(this).text("删除");
-		init_remove();
-		e.stopPropagation(); 
-	});
-
-	$('body').click(function() {
-		$(".remove").text("×");
-		$(".remove").addClass('delete',1000);
-		$(".remove").removeClass('remove',1000);
-		init_delete();
-	});
-}
+function getUrlParameter(sParam)
+{
+	var sPageURL = window.location.search.substring(1);
+	var sURLVariables = sPageURL.split('&');
+	for (var i = 0; i < sURLVariables.length; i++) 
+	{
+		var sParameterName = sURLVariables[i].split('=');
+		if (sParameterName[0] == sParam) 
+		{
+			return decodeURIComponent(sParameterName[1]);
+		}
+	}
+} 
 
 $(document).ready(function(){
-	$("#change-location").bind("change", function(event){
-		placeSearch($(this).val(), 0);
+	alert(getUrlParameter("addr"));
+	userID = getUrlParameter("uid");
+	userName = getUrlParameter("name");
+	herLongtitude = getUrlParameter("lng");
+	herLatitude = getUrlParameter("lat");
+	herAddr = getUrlParameter("addr");
+	$("#uname").text(userName);
+
+	$("#gathers").html("");
+	$.get("templates/amap.gather.template", function(html){
+		html = html.replace("#name#", userName);
+		html = html.replace("#addr#", herAddr);
+		$("#gathers").append(html);
 	});
 
+	init_amap();
+	addmarker(0, herLongtitude, herLatitude, herAddr);
 	navigator.geolocation.getCurrentPosition(onSuccess, onError);
-	setTimeout(pullGathers, 5000);
-	$("#gathers").html("");
 
+	pullGathers();
+
+	$("#change-location").bind("change", function(event){
+		placeSearch($(this).val(), 0);
+		setAddr($(this).val());
+	});
 });
 
 function pullGathers(){
-	$.get("templates/amap.gather.template?v=?", function(html){
+	$.get("templates/amap.gather.template", function(html){
 		$.getJSON(
 			"http://jijiehao.hello987.com/db_driver.php?method=v_gather&uid=" + userID + "&cb=?",
 			function(data){
@@ -164,17 +177,24 @@ function pullGathers(){
 					if(gathers.has(data[i]['wid']))continue;
 					gathers.set(data[i]['wid'], data[i]);
 					var raw = replace_template(html, ["name", "wid", "addr"], data[i]);
-					raw = raw.replace("#curr#", i+1);
-					$("#gathers").prepend(raw);
-					init_delete();
-				//addmarker(i+2, data[i]["longtitude"], data[i]["latitude"], data[i]["name"]);
-				placeSearch(data[i]["addr"], i+1);
-			};
-
-			setTimeout(pullGathers, 5000);
-		});
+					$("#gathers").append(raw);
+					//addmarker(i+2, data[i]["longtitude"], data[i]["latitude"], data[i]["name"]);
+					placeSearch(data[i]["addr"], i+2);
+				};
+				setTimeout(pullGathers, 5000);
+				$(".delete").hide();
+			});
 	});
 }
 
-function send2weixin(){
+function joinThem(){
+	var uname = "炮友Jim";
+	$.getJSON(
+		"http://jijiehao.hello987.com/db_driver.php?method=gather&uid=" 
+		+ userID + "&name="+uname+"&addr="+$("#start-point").text()+"&longtitude="+userLongtitude
+		+"&latitude="+userLatitude+"&cb=?",
+		function(data){
+			alert("您与"+userName+"完成［拼地图］!");
+		});
 }
+

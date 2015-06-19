@@ -1,0 +1,6 @@
+<div style="color:#666666;height:65px;line-height:65px;font-size:24pt;padding: 0 20px 0 20px;width:560px;" class="yellow-background">
+				<span style="width:460px;"  class="yellow-background">
+				<font color="red">#name#</font> #addr#
+				</span>
+				<span class="delete trans_vertical" wid="#wid#" curr="#curr#">×</span>
+			</div>

@@ -1,0 +1,11 @@
+<div class="row">
+<a href="#act_table" gid="#gid#" ismine="1">
+	<div style="width:1000px;height:100%">
+		<span>
+			<img src="#img#" class="avatar trans_center"/>
+			<div style="top:50px;text-align:center;">#name#</div>
+		</span>
+		#_#
+	</div>
+	</a>
+</div>

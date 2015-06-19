@@ -1,0 +1,14 @@
+
+<div class="row">
+	<span style="width:160px;background-color: transparent;height:100%;">
+		<div style="height:100px;margin-top: 20px;">
+			<img src="#img#" class="avatar trans_center"/>
+		</div>
+		<div style="font-size:20pt;color:#999999;text-align: center;height:40px;line-height:40px;">#name#</div>
+		<div class="app-status trans_horize" style="background-color:#color#;">#status#</div>
+	</span>
+	<span style="height: 100%;width: 480px;">
+		<div class="acts" gid="#gid#">
+		</div>
+	</span>
+</div>

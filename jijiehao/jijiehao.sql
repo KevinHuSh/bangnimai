@@ -43,6 +43,8 @@ uid  VARCHAR(100) default "1",
 max_follower_no int,
 phone VARCHAR(20),
 info VARCHAR(100),
+summary  VARCHAR(100),
+create_tm TIMESTAMP,
 joinable int default 1
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -52,12 +54,26 @@ aid int(6),
 index(gid)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
+drop table IF EXISTS participate;
 create table participate(
 gid INT(6) ,
 uid VARCHAR(100),
 tm TIMESTAMP,
 approved int,
 index(gid)
+)  ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+drop table IF EXISTS gather;
+create table gather(
+wid INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+uid  VARCHAR(100),
+name VARCHAR(50) default "炮友OMG",
+latitude float,
+longtitude float,
+addr varchar(50) default "天堂",
+status int default 1,
+tm TIMESTAMP,
+index(uid)
 )  ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 drop view IF EXISTS v_comment_count;
@@ -136,6 +152,87 @@ left join user_info on active_group.uid=user_info.uid,
 activity
 where 
 active_group.main_aid=activity.aid;
+
+select
+group_concat(cover_img SEPARATOR ",") as cover_imgs,
+active_group.gid,
+user_info.img
+from
+activity,
+active_group left join active_attach on active_attach.gid=active_group.gid,
+user_info
+where
+active_group.main_aid=5 
+and (activity.aid=active_attach.aid or activity.aid=5)
+and user_info.uid=active_group.uid
+group by active_group.gid, user_info.img;
+
+select
+activity.cover_img,
+activity.title,
+activity.category,
+activity.tm,
+IFNULL(active_group.phone, '没有公开') as phone,
+active_group.info,
+IFNULL(active_group.summary, '精彩活动安排') as summary,
+user_info.name,
+user_info.img
+from
+activity,
+active_group left join active_attach on active_attach.gid=active_group.gid,
+user_info
+where
+active_group.gid=10
+and active_group.uid=user_info.uid
+and (active_attach.aid=activity.aid or active_group.main_aid=activity.aid);
+
+select 
+participate.gid,
+user_info.uid,
+user_info.name,
+user_info.img,
+participate.approved,
+IFNULL(active_group.summary, '精彩活动安排') as summary
+from 
+participate,
+user_info,
+active_group
+where 
+participate.gid = 1
+and active_group.gid = 1
+and participate.uid=user_info.uid;
+
+select
+participate.gid,
+user_info.uid,
+user_info.name,
+user_info.img,
+participate.approved,
+IFNULL(active_group.summary, '精彩活动安排') as summary
+from
+participate,
+user_info,
+active_group
+where
+active_group.uid = 2
+and participate.gid = active_group.gid
+and participate.uid=user_info.uid
+order by active_group.create_tm desc;
+
+select 
+active_group.gid,
+participate.approved,
+user_info.img,
+user_info.name
+from
+participate,
+active_group,
+user_info
+where
+participate.uid = 3
+and participate.gid = active_group.gid
+and active_group.uid = user_info.uid
+and user_info.uid<>1;
 
 
 insert into activity(title, category, district,addr,detail,tm,longtitude,latitude,follower_no,cover_img)values('很高兴遇见你', '下午茶', '中山公园', '定西路1273号4楼(近安化路) ', '三层甜品拼盘口味一级棒', '2015/11/11', '3534231', '242334', '9', 'http://i1.s2.dpfile.com/pc/mc/2fef89a861e1d9fa7483841dc327c092(450c280)/aD0yODAmaz0vcGMvbWMvMmZlZjg5YTg2MWUxZDlmYTc0ODM4NDFkYzMyN2MwOTImbG9nbz0wJm09YyZ3PTQ1MA.cf9448f5a191268c780b5861f4e9f91e/thumb.jpg');
@@ -260,3 +357,23 @@ insert into comment (uid,aid,cmt,tm)values('5','2','这个也不错','2011/11/11
 insert into comment (uid,aid,cmt,tm)values('6','1','还是水晶香槟好','2011/11/11/1111');
 
 insert into comment (uid,aid,cmt,tm)values('7','1','楼上都是二','2011/11/11/1111');
+
+
+insert into participate (gid, uid, tm, approved) values(1, 2, '20150304', 1);
+insert into participate (gid, uid, tm, approved) values(1, 3, '20150104', 1);
+insert into participate (gid, uid, tm, approved) values(2, 1, '20150304', 3);
+insert into participate (gid, uid, tm, approved) values(2, 6, '20150404', 1);
+insert into participate (gid, uid, tm, approved) values(4, 2, '20150504', 1);
+insert into participate (gid, uid, tm, approved) values(4, 1, '20150504', 2);
+insert into participate (gid, uid, tm, approved) values(5, 2, '20150504', 1);
+insert into participate (gid, uid, tm, approved) values(5, 3, '20150504', 2);
+insert into participate (gid, uid, tm, approved) values(5, 4, '20150504', 3);
+insert into participate (gid, uid, tm, approved) values(5, 6, '20150504', 1);
+
+
+insert into gather (uid, name, latitude, longtitude, addr)values("5", "Kevin", 34.149, 121.305, "上海市田林路222号");
+insert into gather (uid, name, latitude, longtitude, addr)values("5", "Jack", 34.1486, 121.3051, "上海市陆家嘴环路121号");
+insert into gather (uid, name, latitude, longtitude, addr)values("5", "Kevin", 34.1493, 121.3052, "上海市涞寅路111号");
+insert into gather (uid, name, latitude, longtitude, addr)values("5", "Kevin", 34.1495, 121.3054, "上海市浦东南路222号");
+
+
