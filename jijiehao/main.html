@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<!-- http://jsfiddle.net/0btvczd5/2/ -->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<META HTTP-EQUIV="pragma" CONTENT="no-cache" /> 
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate" /> 
+	<META HTTP-EQUIV="expires" CONTENT="0" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" id="vp"/>
+	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+	<link rel="stylesheet" href="css/jquery-ui.css">
+	<link rel="stylesheet" href="css/home.css?v=5">
+	<link rel="stylesheet" href="css/icons.css?v=1">
+	<link href="css/bootstrap-switch.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/social.umeng.css" />
+
+	<script type='application/javascript' src="js/fastclick.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
+	<script stype="text/javascript" src="js/bootstrap-switch.min.js"></script>
+	<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=453f7fb94d2dbb41eb013b16903e1244"></script>
+	<script type="text/javascript" src="js/html2canvas.js"></script>
+	<script type="text/javascript" src="js/social.umeng.js"></script>
+	<script type="text/javascript" src="js/common.js?v=20"></script>
+	<script type="text/javascript">
+
+	window.umappkey = '5590950b67e58ecaeb00b2c3';
+
+	$(function() {
+		FastClick.attach(document.body);
+		$(document).bind("mobileinit", function () { $.mobile.defaultPageTransition = 'none'; });
+	});
+	</script>
+</head>
+<body>
+
+	<div id="side-menu" style="height:100%;width:0px;z-index:900;overflow:hidden;background-color: transparent;">
+		<div class="side-panel" style="background: url(icons/setting.bg.png) no-repeat;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
+		</div> 
+		<div class="side-panel pannel-cover">
+		</div>
+		<div id="personalPanel" class="side-panel">
+			<div>
+				<img src="http://www.banbaocn.com/upload/2009-02/09022311173852.jpg" class="avatar trans_center"/>
+			</div>
+			<div>
+				<ul>
+					<li onclick="myschedule()"><span class="icon-y"></span>我的安排
+					</li>
+					<li  onclick="mymessage()"><span class="icon-v"></span>我的消息
+					</li>
+					<li  onclick="mysetting()"><span class="icon-7"></span>我的设置
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div data-role="page" id="home">
+
+		<div class="header"></div>
+		<div class="header position-fixed">
+			<div>
+				<span style="height:100%;width:120px" onclick="showMenu(event)">
+					<span class="left-btn icon-1a">
+					</span>
+				</span>
+				<span class="header-title">
+					一步
+				</span>
+			<!--	<a href = "#" > 
+					<span class="right-btn icon-b">
+					</a> -->
+				</span>
+
+			</div>
+		</div>
+		<div id="tip" onclick="gotoPingHome()">
+			<span class="left-btn icon-2a"></span>
+			<span>有人与你拼地图</span>
+			<a href="#"><span class="right-btn icon-u"></span></a>
+		</div>
+		<div id="home-scroll">
+			<div>
+				<div class="gray-background" style="text-align:center;font-size:24pt;color:#999999;line-height:60px;height:60px;">
+					下拉刷新列表
+				</div>
+				
+				<div id="group-table">
+				</div>
+			</div>
+		</div>
+		<div class="footer" style="width:636px;height:100px;border:2px solid #ebebeb;position:fixed;top:auto;bottom:0px;z-index:777;">
+			<span class="icon-w" style="width:45px;height:45px;margin:25px 10px 25px 30px;"></span>
+			<span id="slider-name" style="height:100px;width:100px;line-height:100px;color:red;font-size:30pt;">聚聚</span>
+			<!--<span id="slider" style="width:300px;top:45px;"></span> -->
+			<span style="height:100%;width:100px;" onclick="filter(this)" cate="聚聚" filter="1">
+				<span class="icon-0a trans_center filter" style="height:30px;width:30px;"></span>
+			</span>
+			<span style="height:100%;width:100px;" onclick="filter(this)" cate="逛逛" filter="2">
+				<span class="icon-0b trans_center filter" style="height:30px;width:30px;"></span>
+			</span>
+			<span style="height:100%;width:100px;" onclick="filter(this)" cate="动动" filter="3">
+				<span class="icon-0b trans_center filter" style="height:30px;width:30px;"></span>
+			</span>
+			<span onclick="locateothers()" class="icon-6" style="width:60px;height:60px;margin:25px 50px 25px 30px;float:right;"></span>
+		</div>
+
+		<script type="text/javascript" >
+
+		$.mobile.loading( 'show', {
+			text: "加载中，请稍候……",
+			textVisible: true
+		});
+
+		function loadMore(){
+			var url = "http://jijiehao.hello987.com/db_driver.php?method=v_active&lat="+userLatitude.toString()+"&lon="+userLongtitude.toString()+"&offset="+offset.toString()+"&s="+s.toString()+"&filter="+filter_type.toString()+"&cb=?"
+			$.getJSON(
+				url, 
+				function(data){
+					for (var i = 0; i < data.length; i++) {
+						var gid = "group"+(i+2 + offset).toString();
+						load_group(gid, data[i]);
+					};//alert(data);
+					$.mobile.loading("hide");
+					offset += s;
+					if($("#home-scroll").scrollTop() < 60)
+						$("#home-scroll").scrollTop(60);
+
+					$("#home-scroll").on("scrollstop", checkScroll);
+				});
+		}
+
+		$(document).ready(function(){
+
+			//loadMore();
+
+			$('body').click(function() {
+				slideBackForth(0);
+			});
+/*
+			$( "#slider" ).slider({
+				orientation: "horizontal",
+				range: "min",
+				max: 5,
+				value: 0,
+				slide: research,
+				change: research
+			});
+
+			$("#slider").slider("value", 1);*/
+
+			//$("#locateothers").bind("touchstart", locateothers);
+
+			$("#tip").hide();
+			$("#home-scroll").css("top", "128px");
+		});
+
+		function showMenu(e){
+			slideBackForth(1);
+			e.stopPropagation(); 
+		}
+
+		function slideBackForth(lr){
+			var w = 320;
+			if (lr == 0)
+				w = 0;
+
+			$("#side-menu").animate({width: (w > 0? "640px":"0px")}, 200);
+			$("#home").animate({left: w.toString()+"px", width: (640-w).toString()+"px !important"}, 200);
+			$(".header").animate({left: w.toString()+"px",width: (640-w).toString()+"px"}, 200);
+			$(".footer").animate({left: w.toString()+"px",width: (640-w).toString()+"px"}, 200);
+			if(w > 0)$("#home").attr('style', "width:320px !important");
+			else $("#home").attr('style', "width:640px !important");
+		}
+
+
+		function load_group(groupid, json){
+			if (json["imgs"] === null || json["title"] === null || json["gid"] === null)return;
+
+			$("#group-table").append("<div class=\"act-group\" id=\""+groupid+"\"></div>");
+			$("#"+groupid).load("templates/act-group.template?v=1", function(){
+				var raw = $(this).html();
+
+				raw=replace_template(raw, ["img", "gid", "name", "tm", "title", "cmt_count"], json);
+
+				var imgs = json["imgs"].split(",");
+				for (var i = 0; i < imgs.length; i++) {
+					raw = raw.replace("#img"+(i+1).toString()+"#", imgs[i]);
+				}
+				for (var i = imgs.length; i <3 ; i++) {
+					raw = raw.replace("#img"+(i+1).toString()+"#", "icons/default.act."
+						+(Math.floor((Math.random() * 100) + 1)%5).toString()+".jpeg");
+				}
+
+				$(this).html(raw);
+
+				if (json["img"] === null || json["img"].length == 0)
+					$("#"+groupid+" .avatar").hide();
+				group_img_auto_fitin(groupid);
+			});
+		}
+
+		function group_img_auto_fitin(groupid)
+		{
+			$("#"+groupid+" .left-img > img").load(function() {
+				if ($( this ).height()*1.0/$( this ).width() < 381.0/319.0){
+					$( this ).css("height", "100%");
+					$( this ).css("width", "auto");
+				}
+				else{
+					$( this ).css("width", "100%");
+					$( this ).css("height", "auto");
+				}
+			});
+
+			$("#"+groupid + " .right-img > img").load(function() {
+				if ($( this ).height()*1.0/$( this ).width() < 381.0/2.0/319.0){
+					$( this ).css("width", "100%");
+					$( this ).css("height", "auto");
+				}
+				else{
+					$( this ).css("height", "50%");
+					$( this ).css("width", "auto");
+				}
+			});
+		}
+
+		function myschedule(){
+			var url = "./myschedule.html?v=?";
+			changePage(url);
+		}
+
+		function mymessage(){
+			var url = "./mymessage.html?v=?";
+			changePage(url);
+		}
+
+		function mysetting(){
+			var url = "./mysetting.html?v=?";
+			changePage(url);
+		}
+
+		function group(gid){
+			var url = "./group.html?gid=" + gid;
+			changePage(url);
+		}
+
+		function locateothers(){
+			var url = "./locateothers.html";
+			changePage(url);
+		}
+
+		function gotoPingHome(){
+			var url = "./ping_main.html";
+			changePage(url);
+		}
+
+		function checkScroll() {
+			var activePage = $.mobile.pageContainer.pagecontainer("getActivePage"),
+
+			screenHeight = $.mobile.getScreenHeight(),
+
+			contentHeight = $("#home-scroll > div").outerHeight(),
+
+			scrolled = $("#home-scroll").scrollTop(),
+
+			header = $(".header").outerHeight() - 1,
+			footer = 0;//$(".ui-footer", activePage).outerHeight() - 1,
+
+			scrollEnd = contentHeight - screenHeight;
+
+			if (scrolled < 60){
+				refresh();
+				return;
+			}
+
+			if (activePage[0].id == "home" && scrolled >= scrollEnd) {
+				//alert(contentHeight + ":" + scrolled + ">=" + scrollEnd);
+				$("#home-scroll").off("scrollstop");
+				$.mobile.loading("show", {
+					text: "加载更多...",
+					textVisible: true
+				});
+				setTimeout(loadMore , 500);
+			}
+		}
+
+		function refresh(){
+			$("#home-scroll").off("scrollstop");
+			$("#home-scroll").scrollTop(60);
+			offset = 0;
+			$("#group-table").html("");
+			$.mobile.loading("show", {
+				text: "刷新列表...",
+				textVisible: true
+			});
+			setTimeout(loadMore , 500);
+		}
+/*
+		function research()
+		{
+			var v = $( "#slider" ).slider( "value" );
+			switch (v){
+				case 0:
+				$("#slider-name").text("聚聚");
+				break;
+				case 1:
+				$("#slider-name").text("聚聚");
+				break;
+				case 2:
+				$("#slider-name").text("逛逛");
+				break;
+				case 3:
+				$("#slider-name").text("动动");
+				break;
+				case 4:
+				$("#slider-name").text("户外");
+				break;
+				case 5:
+				$("#slider-name").text("户外");
+				break;
+			}
+		}*/
+
+		function filter(ele){
+			$("#slider-name").text($(ele).attr("cate"));
+			$(".icon-0a").addClass("icon-0b");
+			$(".icon-0a").removeClass("icon-0a");
+			$(ele).children("span").removeClass("icon-0b");
+			$(ele).children("span").addClass("icon-0a");
+			filter_type = $(ele).attr("filter");
+			offset = 0;
+			$("#group-table").html("");
+			loadMore();
+		}
+
+		</script>
+	</div>
+
+	<div id="alert-dialog" style="display:none;background-color:#ebebeb;font-size:20pt;">
+		<div style="height:40px;background-color:#ebebeb;color:#999999;text-align:center;">
+			xxxxxxxxx
+		</div>
+		<div id="alert-dialog-done" style="line-height:40px;height:40px;margin-top:10px;background-color:red;color:white;text-align:center;">
+			确定
+		</div>
+	</div>
+
+
+</body>
+</html>

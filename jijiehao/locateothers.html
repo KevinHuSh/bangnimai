@@ -1,0 +1,226 @@
+<div  data-role="page" id="locateothers">
+	<div class="header "></div>
+	<div class="header position-fixed">
+		<div>
+			<a href="#" data-rel="back">
+				<span style="height:100%;width:120px" onclick="goback(this)">
+				<span class="left-btn icon-n back-arrow">
+				</span>
+				<span style="width:auto;font-size:24pt;color:#666666;">返回</span>
+			</span>
+			</a>
+			<span class="header-title" style="width:400px;">
+				拼地图
+			</span>
+		</div>
+	</div>
+
+	<div class="gray-background" style="color:red;margin:20px;width:600px;height:100px;font-size:15pt;line-height:40px;">
+		<span class="icon-1 gray-background" style="width:25px;height:35px;margin:5px;"></span>
+		<span  class="gray-background" style="width:550px;max-height:120px;">您位于<font id="curr_addr">……</font></span>
+		<input type="search" name="search" id="change-location" placeholder="换一个出发点"/>	
+	</div>
+	<div id="amap" style="height:550px;font-size:20pt !important;">
+	</div>
+	<div id="gathers" style="max-height:240px;overflow:scroll;padding:20px;width:600px;">
+	</div>
+	<div style="height:70px;">
+		<span style="height:60px;width:600px;margin:10px 20px 10px 20px;line-height:60px;font-size:15pt;color:#999999;text-align:center;" class="gray-background">
+			点击<font color="red">［拼地图］</font>可与微信好友共同选择集结地点
+		</span>
+	</div>
+	<div style="height:100px;width:600px;padding:20px;">
+		<span class="icon-h trans_vertical" style="width:50px;height:40px;margin:0 20px 0 20px;"> </span>
+		<span onclick="send2weixin()" style="width:430px;height:100%;background-color:red;color:white;font-size:24pt;line-height:100px;">
+			<span style="left:140px;width:50px;height:50px;" class="icon-5 trans_vertical"></span>
+			<span style="width:auto;left:150px;background-color:red;">拼地图</span>
+		</span>
+	</div>
+
+	<script type="text/javascript">
+		$.mobile.loading( 'show', {
+			text: "加载中，请稍候……",
+			textVisible: true
+		});
+
+	$("#locateothers").on('pagebeforeshow',function(){
+
+		$("#change-location").bind("change", function(event){
+			placeSearch($(this).val(), 0);
+		});
+
+		init_amap();
+		setCurrAddr();
+
+		pullGathers();
+		$("#gathers").html("");
+		$("#gathers").hide();
+	});
+
+	var map;
+	var marker = new Array();
+	var windowsArr = new Array();
+	var gathers = new Array();
+
+	function init_amap(){
+		map = new AMap.Map("amap", {
+			resizeEnable: true
+		});
+		marker = new Array();
+		windowsArr = new Array();
+	}
+
+	function placeSearch(addr, curr){
+
+		if (typeof addr === "undefined"
+			|| addr.length == 0)
+			addr = '涞寅路658弄';
+
+		AMap.service(["AMap.Geocoder"], function() {
+			var MGeocoder = new AMap.Geocoder({ 
+		            city:"021", //城市，默认：“全国”
+		            radius:1000 //范围，默认：500
+		        });;
+			MGeocoder.getLocation(addr, function(status, result){
+				if(status === 'complete' && result.info === 'OK'){
+
+					var geocode = new Array();
+					geocode = result.geocodes;
+					for (var i = 0; i < geocode.length && i<1; i++) {
+						if (curr == 0 && typeof marker[curr] != "undefined"){
+							marker[curr].setMap(null);
+							userLongtitude = geocode[i].location.getLng();
+							userLatitude = geocode[i].location.getLat();
+						}
+						addmarker(curr, geocode[i].location.getLng(), geocode[i].location.getLat(), geocode[i].formattedAddress);
+					}  
+					map.setFitView();
+				}
+			});
+		});
+	}
+
+	function addmarker(i, lngX, latY, formattedAddress) {
+		var markerOption = {
+			map:map,                 
+			icon:"http://webapi.amap.com/images/"+(i+1)+".png",  
+			position:new AMap.LngLat(lngX, latY)
+		};            
+		var mar = new AMap.Marker(markerOption);  
+		marker[i] = mar;
+
+		var infoWindow = new AMap.InfoWindow({  
+			content:formattedAddress, 
+			autoMove:true, 
+			size:new AMap.Size(150,0),  
+			offset:{x:0,y:-30}
+		});  
+		windowsArr.push(infoWindow);  
+
+		var aa = function(e){infoWindow.open(map,mar.getPosition());};  
+		AMap.event.addListener(mar,"mouseover",aa);  
+	}
+
+
+	function setCurrAddr()
+	{
+		var geocoder;
+		var lnglatXY = new AMap.LngLat(userLongtitude, userLatitude);
+		AMap.service(["AMap.Geocoder"], function() {
+			geocoder = new AMap.Geocoder({
+				radius: 100,
+				extensions: "all"
+			});
+			geocoder.getAddress(lnglatXY, function(status, result){
+				if(status === 'complete' && result.info === 'OK'){
+					$("#change-location").val(result.regeocode.formattedAddress);
+					$("#curr_addr").text(result.regeocode.formattedAddress);
+
+					addmarker(0, userLongtitude, userLatitude, result.regeocode.formattedAddress);
+
+					map.setFitView();
+					$.mobile.loading("hide");
+				}
+			});
+		});
+	}
+
+	function init_remove(){
+		$(".remove").off("click").click(function(e){
+			var wid = $(this).attr("wid");
+			marker[$(this).attr("curr")].setMap(null);
+			map.setFitView();
+			delete gathers[wid];
+			$(this).parent().hide(100);
+			e.stopPropagation(); 
+			$.getJSON(
+				"http://jijiehao.hello987.com/db_driver.php?method=del_gather&wid=" + wid + "&cb=?",
+				function(data){
+
+				});
+		});
+	}
+
+	function init_delete(){
+		$(".delete").off("click").click(function(e){
+			$(this).removeClass('delete');
+			$(this).addClass('remove');
+			$(this).text("删除");
+			init_remove();
+			e.stopPropagation(); 
+		});
+
+		$('body').click(function() {
+			$(".remove").text("×");
+			$(".remove").addClass('delete');
+			$(".remove").removeClass('remove');
+			init_delete();
+		});
+	}
+
+
+	function pullGathers(){
+		$.get("templates/amap.gather.template?v=?", function(html){
+			$.getJSON(
+				"http://jijiehao.hello987.com/db_driver.php?method=v_gather&uid=" + userID + "&cb=?",
+				function(data){
+					for (var i = 0; i < data.length; i++) {
+						if(typeof gathers[data[i]['wid']] != "undefined")continue;
+						gathers[data[i]['wid']] = data[i];
+						var raw = replace_template(html, ["name", "wid", "addr"], data[i]);
+						raw = raw.replace("#curr#", i+1);
+						$("#gathers").show();
+						$("#gathers").prepend(raw);
+						init_delete();
+						placeSearch(data[i]["addr"], i+1);
+
+						$("#tip").show();
+						$("#home-scroll").css("top", "216px");
+					};
+					if (data.length == 0){
+						$("#tip").hide();
+						 	$("#home-scroll").css("top", "128px");
+					}
+
+					setTimeout(pullGathers, 60000);
+				});
+		});
+	}
+
+	function send2weixin(){
+		alert("http://jijiehao.hello987.com/weixin-map.html?uid="+userID+"&name="+userName+"&lng="+userLongtitude+"&lat="+userLatitude+"&addr="+$("#curr_addr").text());
+		WeChat
+		.share({
+			type: WeChat.ShareType.webpage,
+			title: '我在这里，你在哪儿呢？',
+			url: "http://jijiehao.hello987.com/weixin-map.html?uid="+userID+"&name="+userName+"&lng="+userLongtitude+"&lat="+userLatitude+"&addr="+$("#curr_addr").text(),
+			thumbData: "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3FpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo3MmZhYzc4ZC0yNzdlLTQ1NDMtOTJlMy00ZjUxMTQ0ZTA2N2IiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6REVDMjJCM0MxRDg3MTFFNUI0ODQ5ODQxQkNBRkEwMTkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6REVCMTYyMkQxRDg3MTFFNUI0ODQ5ODQxQkNBRkEwMTkiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOmE0NjE3MDZkLWJkYmEtNGY0My1hMDUxLTExNjY1YTJlN2VlNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo3MmZhYzc4ZC0yNzdlLTQ1NDMtOTJlMy00ZjUxMTQ0ZTA2N2IiLz4gPC9y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",
+			description: "您的朋友约您一起玩耍，和TA一起拼个地图后，我们将根据你们的地理位置给您推荐玩耍内容！"
+		}, WeChat.Scene.session, function () {
+			console.log('分享成功~');
+		}, function (reason) {
+			console.log("Fail", reason);
+		});
+	}
+</script>
+</div>

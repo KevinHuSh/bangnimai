@@ -1,0 +1,51 @@
+<div  data-role="page" id="messages">
+	<div class="header "></div>
+	<div class="header position-fixed">
+		<div>
+			<a href="#" data-rel="back">
+				<span style="height:100%;width:120px" onclick="goback(this)">
+				<span class="left-btn icon-n back-arrow">
+				</span>
+				<span style="width:auto;font-size:24pt;color:#666666;">返回</span>
+			</span>
+			</a>
+			<span class="header-title" style="width:400px;">
+				我的消息
+			</span>
+		</div>
+	</div>
+	<div id="messages-rows" style="background-color:#ebebeb;">
+		
+	</div>
+	<script type="text/javascript">
+    $.mobile.loading( 'show', {
+        text: "加载中，请稍候……",
+        textVisible: true
+    });
+	$("#messages").on('pagebeforeshow',function(){
+		$("#messages-rows").html("");
+		$.get("templates/messages.row.template?v=1", function(html){
+			$.getJSON(
+				"http://jijiehao.hello987.com/db_driver.php?method=v_message&uid=" + userID + "&cb=?",
+				function(data){
+					for (var i = 0; i < data.length; i++) {
+						var raw = replace_template(html, ["name", "summary", "img", "gid"], data[i]);
+						if (parseInt(data[i]["approved"]) == 1){
+							raw = raw.replace("#icon#", "icon-g");
+						}else{
+							raw = raw.replace("#icon#", "icon-z").replace("onclick", "xxx");
+						}
+						$("#messages-rows").append(raw);
+					};
+					$.mobile.loading("hide");
+				});
+		});
+	});
+
+	function act_table(gid)
+	{
+		var url = "./act_table.html?gid="+gid+"&uid="+userID;
+		changePage(url);
+	}
+	</script>
+</div>

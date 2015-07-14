@@ -12,7 +12,23 @@ var map = new AMap.Map("amap", {
 });
 var marker = new Array();
 var windowsArr = new Array();
-var gathers = new Map();
+var gathers = new Array();
+
+
+$.mobile.loading( 'show', {
+	text: "加载中，请稍候……",
+	textVisible: true
+});
+
+window.onload = function() {
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )
+	{
+   		var ww = ( $(window).width() < window.screen.width ) ? $(window).width() : window.screen.width; //get proper width
+   		var mw = 640; // min width of site
+   		var ratio =  ww / mw; //calculate ratio
+     		$('#vp').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=no, width=' + mw);
+    }
+};
 
 function init_amap(){
 	map = new AMap.Map("amap", {
@@ -84,19 +100,20 @@ function setCurrAddr()
 				setAddr(result.regeocode.formattedAddress);
 				addmarker(1, userLongtitude, userLatitude, result.regeocode.formattedAddress);
 				map.setFitView();
+				$.mobile.loading("hide");
 			}
 		});
 	});
 }
 
 function setAddr(addr){
-	//$("#change-location").val(addr);
-	//$("#curr_addr").text(addr);
+	$("#change-location").val(addr);
+	$("#curr_addr").text(addr);
 	$("#start-point").text(addr);
 }
 
 var onSuccess = function(position) {
-	alert('Latitude: '          + position.coords.latitude          + '\n' +
+/*	alert('Latitude: '          + position.coords.latitude          + '\n' +
 		'Longitude: '         + position.coords.longitude         + '\n' +
 		'Altitude: '          + position.coords.altitude          + '\n' +
 		'Accuracy: '          + position.coords.accuracy          + '\n' +
@@ -104,7 +121,7 @@ var onSuccess = function(position) {
 		'Heading: '           + position.coords.heading           + '\n' +
 		'Speed: '             + position.coords.speed             + '\n' +
 		'Timestamp: '         + position.timestamp                + '\n');
-
+*/
 	userLongtitude = position.coords.longitude;
 	userLatitude = position.coords.latitude;
 
@@ -140,6 +157,9 @@ function getUrlParameter(sParam)
 	}
 } 
 
+var dialog;
+
+
 $(document).ready(function(){
 	alert(getUrlParameter("addr"));
 	userID = getUrlParameter("uid");
@@ -166,6 +186,23 @@ $(document).ready(function(){
 		placeSearch($(this).val(), 0);
 		setAddr($(this).val());
 	});
+
+	dialog = $( "#dialog-form" ).dialog({
+		autoOpen: false,
+		modal: false,
+		resizable:false,
+		dialogClass: "alert",
+		width:250,
+		height: 200,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		}
+	});
 });
 
 function pullGathers(){
@@ -174,8 +211,8 @@ function pullGathers(){
 			"http://jijiehao.hello987.com/db_driver.php?method=v_gather&uid=" + userID + "&cb=?",
 			function(data){
 				for (var i = 0; i < data.length; i++) {
-					if(gathers.has(data[i]['wid']))continue;
-					gathers.set(data[i]['wid'], data[i]);
+					if(typeof gathers[data[i]['wid']] != "undefined")continue;
+					gathers[data[i]['wid']] = data[i];
 					var raw = replace_template(html, ["name", "wid", "addr"], data[i]);
 					$("#gathers").append(raw);
 					//addmarker(i+2, data[i]["longtitude"], data[i]["latitude"], data[i]["name"]);
@@ -188,13 +225,33 @@ function pullGathers(){
 }
 
 function joinThem(){
-	var uname = "炮友Jim";
-	$.getJSON(
-		"http://jijiehao.hello987.com/db_driver.php?method=gather&uid=" 
-		+ userID + "&name="+uname+"&addr="+$("#start-point").text()+"&longtitude="+userLongtitude
-		+"&latitude="+userLatitude+"&cb=?",
-		function(data){
-			alert("您与"+userName+"完成［拼地图］!");
-		});
+	var uname = $( "#name" ).val();
+	if (uname.length == 0){
+		giveNickyName();
+		return;
+	}
+	//alert("http://jijiehao.hello987.com/db_driver.php?method=gather&uid=" 
+	//	+ userID + "&name="+uname+"&addr=" + $("#start-point").text()+"&longtitude="+userLongtitude
+	//	+"&latitude="+userLatitude+"&cb=?");
+$.getJSON(
+	"http://jijiehao.hello987.com/db_driver.php?method=gather&uid=" 
+	+ userID + "&name="+uname+"&addr=" + $("#start-point").text()+"&longtitude="+userLongtitude
+	+"&latitude="+userLatitude+"&cb=?",
+	function(data){
+		alert("您与"+userName+"完成［拼地图］!");
+	});
+}
+
+function giveNickyName(){
+	dialog.dialog("open");
+}
+
+function doneJoin(){
+	dialog.dialog("close");
+	joinThem();
+}
+
+function closeDialog(){
+	dialog.dialog("close");
 }
 

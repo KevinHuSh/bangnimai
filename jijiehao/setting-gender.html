@@ -1,0 +1,58 @@
+
+<div  data-role="page" id="gender-setting">
+    <div class="header "></div>
+    <div class="header position-fixed">
+        <div>
+            <a href="#" data-rel="back">
+                <span style="height:100%;width:120px" onclick="goback(this)">
+                <span class="left-btn icon-n back-arrow" >
+                </span>
+                <span style="width:auto;font-size:24pt;color:#666666;">返回</span>
+            </span>
+            </a>
+            <span class="header-title" style="width:400px;">
+                性别
+            </span>
+        </div>
+    </div>
+
+    <div class="gender" style="height:90px;line-height:90px;margin-top:20px;">
+        <span style="width:300px;height:100%;font-size:24pt;left:20px;">男</span>
+        <span style="width:30px;height:20px;float:right;margin-right:40px;" class="trans_vertical"></span>
+    </div>
+    <div class="gender" style="height:90px;line-height:90px;margin-top:1px;">
+        <span style="width:300px;height:100%;font-size:24pt;left:20px;">女</span>
+        <span style="width:30px;height:20px;float:right;margin-right:40px;" class="trans_vertical"></span>
+    </div>
+    <script type="text/javascript">
+    $.mobile.loading( 'show', {
+        text: "加载中，请稍候……",
+        textVisible: true
+    });
+    $("#gender-setting").on('pagebeforeshow',function(){
+        var gender = getUrlParameter("g") ;
+        $(".gender").each(function(){
+            if($(this).find("span:first-of-type").text() == gender){
+                $(this).find("span:nth-of-type(2)").addClass("icon-i");
+            }
+        });
+
+        $(".gender").click(function(){
+            var span = $(this).find("span:nth-of-type(2)");
+            if ($(span).hasClass("icon-i"))return;
+            $(".icon-i").toggleClass("icon-i");
+            $(span).addClass("icon-i");
+            setGender($(span).prev().text());
+        });
+        $.mobile.loading("hide");
+    });
+
+    function setGender(g){
+        $.getJSON(
+            "http://jijiehao.hello987.com/db_driver.php?method=userinfo&uid="+userID+"&param=gender='"+g+"'&cb=?",
+            function(data){
+            });
+    }
+    </script>
+</div>
+

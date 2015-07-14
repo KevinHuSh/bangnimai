@@ -1,0 +1,55 @@
+<div data-role="page" id="whereto">
+	<div class="header "></div>
+	<div class="header position-fixed">
+		<div>
+			<a href="#" data-rel="back">
+				<span style="height:100%;width:120px" onclick="goback(this)">
+				<span class="left-btn icon-n back-arrow">
+				</span>
+				<span style="width:auto;font-size:24pt;color:#666666;">返回</span>
+			</span>
+			</a>
+			<span class="header-title" style="left:120px;text-align:left;">
+				去哪儿
+			</span>
+		</div>
+	</div>
+	<div id="whereto-rows"  style="margin-top:10px;">
+		
+	</div>
+	<script type="text/javascript">
+
+		$.mobile.loading( 'show', {
+			text: "加载中，请稍候……",
+			textVisible: true
+		});
+
+	$("#whereto").on('pagebeforeshow',function(){
+		var aid = getUrlParameter("aid") ;
+
+		$.getJSON(
+			"http://jijiehao.hello987.com/db_driver.php?method=v_stuck_in&aid=" + aid + "&cb=?",
+			function(data){
+				$.get("templates/whereto.row.template?v=2", function(html){
+					$("#whereto-rows").html("");
+					for (var i = 0; i < data.length; i++) {
+						var raw=replace_template(html, ["img", "name", "gid", "uid"], data[i]);
+						var imgs = data[i]["cover_imgs"].split(",");
+						for (var j = 0; j < imgs.length; j++) 
+							raw = raw.replace("#_#", "<span><img src='"+imgs[j]+"' class='act-avatar trans_center'/></span>#_#");
+						raw = raw.replace("#_#", "");
+						$("#whereto-rows").append(raw);
+					}
+					$.mobile.loading("hide");
+				});
+			});
+	});
+
+	function act_table(gid, uid)
+	{
+		var url = "./act_table.html?gid="+gid+"&uid="+uid;
+		changePage(url);
+	}
+
+	</script>
+</div>

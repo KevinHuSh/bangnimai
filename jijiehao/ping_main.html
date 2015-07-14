@@ -1,0 +1,195 @@
+<div data-role="page" id="ping-home">
+
+		<div class="header"></div>
+		<div class="header position-fixed">
+			<div>
+			<a href="#" data-rel="back">
+				<span style="height:100%;width:120px" onclick="goback(this)">
+				<span class="left-btn icon-n back-arrow">
+				</span>
+				<span style="width:auto;font-size:24pt;color:#666666;">返回</span>
+			</span>
+			</a>
+				<span class="header-title">
+					一步
+				</span>
+				</span>
+
+			</div>
+		</div>
+		<div id="ping-home-scroll">
+			<div>
+				<div class="gray-background" style="text-align:center;font-size:24pt;color:#999999;line-height:60px;height:60px;">
+					下拉刷新列表
+				</div>
+				
+				<div id="ping-group-table">
+				</div>
+			</div>
+		</div>
+		<div class="footer" style="width:636px;height:100px;border:2px solid #ebebeb;position:fixed;top:auto;bottom:0px;z-index:777;">
+			<span class="icon-w" style="width:45px;height:45px;margin:25px 10px 25px 30px;"></span>
+			<span id="ping-slider-name" style="height:100px;width:100px;line-height:100px;color:red;font-size:30pt;">聚聚</span>
+			<!--<span id="slider" style="width:300px;top:45px;"></span> -->
+			<span style="height:100%;width:100px;" onclick="filter(this)" cate="聚聚" filter="1">
+				<span class="icon-0a trans_center filter" style="height:30px;width:30px;"></span>
+			</span>
+			<span style="height:100%;width:100px;" onclick="filter(this)" cate="逛逛" filter="2">
+				<span class="icon-0b trans_center filter" style="height:30px;width:30px;"></span>
+			</span>
+			<span style="height:100%;width:100px;" onclick="filter(this)" cate="动动" filter="3">
+				<span class="icon-0b trans_center filter" style="height:30px;width:30px;"></span>
+			</span>
+			<span onclick="locateothers()" class="icon-6" style="width:60px;height:60px;margin:25px 50px 25px 30px;float:right;"></span>
+		</div>
+
+		<script type="text/javascript" >
+
+		$.mobile.loading( 'show', {
+			text: "加载中，请稍候……",
+			textVisible: true
+		});
+
+		var poffset = 0;
+		var pfilter_type = 1
+		function pingLoadMore(){
+			var url = "http://jijiehao.hello987.com/db_driver.php?method=v_active&lat="+userLatitude.toString()+"&lon="+userLongtitude.toString()+"&offset="+poffset.toString()+"&s="+s.toString()+"&filter="+pfilter_type.toString()+"&uid="+userID+"&cb=?"
+			$.getJSON(
+				url, 
+				function(data){
+					for (var i = 0; i < data.length; i++) {
+						var gid = "group"+(i+2 + poffset).toString();
+						ping_load_group(gid, data[i]);
+					};//alert(data);
+					$.mobile.loading("hide");
+					poffset += s;
+					if($("#ping-home-scroll").scrollTop() < 60)
+						$("#ping-home-scroll").scrollTop(60);
+
+					$("#ping-home-scroll").on("scrollstop", pingCheckScroll);
+				});
+		}
+
+		$("#ping-home").on('pagebeforeshow',function(){
+
+			pingLoadMore();
+		});
+
+		function ping_load_group(groupid, json){
+			if (json["imgs"] === null || json["title"] === null || json["gid"] === null)return;
+
+			$("#ping-group-table").append("<div class=\"act-group\" id=\"ping-"+groupid+"\"></div>");
+			$("#ping-"+groupid).load("templates/act-group.template?v=1", function(){
+				var raw = $(this).html();
+
+				raw=replace_template(raw, ["img", "gid", "name", "tm", "title", "cmt_count"], json);
+
+				var imgs = json["imgs"].split(",");
+				for (var i = 0; i < imgs.length; i++) {
+					raw = raw.replace("#img"+(i+1).toString()+"#", imgs[i]);
+				}
+				for (var i = imgs.length; i <3 ; i++) {
+					raw = raw.replace("#img"+(i+1).toString()+"#", "icons/default.act."
+						+(Math.floor((Math.random() * 100) + 1)%5).toString()+".jpeg");
+				}
+
+				$(this).html(raw);
+
+				if (json["img"] === null || json["img"].length == 0)
+					$("#ping-"+groupid+" .avatar").hide();
+				ping_group_img_auto_fitin(groupid);
+			});
+		}
+
+		function ping_group_img_auto_fitin(groupid)
+		{
+			$("#ping-"+groupid+" .left-img > img").load(function() {
+				if ($( this ).height()*1.0/$( this ).width() < 381.0/319.0){
+					$( this ).css("height", "100%");
+					$( this ).css("width", "auto");
+				}
+				else{
+					$( this ).css("width", "100%");
+					$( this ).css("height", "auto");
+				}
+			});
+
+			$("#ping-"+groupid + " .right-img > img").load(function() {
+				if ($( this ).height()*1.0/$( this ).width() < 381.0/2.0/319.0){
+					$( this ).css("width", "100%");
+					$( this ).css("height", "auto");
+				}
+				else{
+					$( this ).css("height", "50%");
+					$( this ).css("width", "auto");
+				}
+			});
+		}
+
+		function group(gid){
+			var url = "./group.html?gid=" + gid;
+			changePage(url);
+		}
+
+		function locateothers(){
+			var url = "./locateothers.html";
+			changePage(url);
+		}
+
+		function pingCheckScroll() {
+			var activePage = $.mobile.pageContainer.pagecontainer("getActivePage"),
+
+			screenHeight = $.mobile.getScreenHeight(),
+
+			contentHeight = $("#ping-home-scroll > div").outerHeight(),
+
+			scrolled = $("#ping-home-scroll").scrollTop(),
+
+			header = $(".header").outerHeight() - 1,
+			footer = 0;
+			scrollEnd = contentHeight - screenHeight;
+
+			if (scrolled < 60){
+				refresh();
+				return;
+			}
+
+			//alert(activePage[0].id);
+			//alert(contentHeight + ":" + scrolled + ">=" + scrollEnd);
+			if (activePage[0].id == "ping-home" && scrolled >= scrollEnd) {
+				$("#ping-home-scroll").off("scrollstop");
+				$.mobile.loading("show", {
+					text: "加载更多...",
+					textVisible: true
+				});
+				setTimeout(pingLoadMore , 500);
+			}
+		}
+
+		function refresh(){
+			$("#ping-home-scroll").off("scrollstop");
+			$("#ping-home-scroll").scrollTop(60);
+			poffset = 0;
+			$("#ping-group-table").html("");
+			$.mobile.loading("show", {
+				text: "刷新列表...",
+				textVisible: true
+			});
+			setTimeout(pingLoadMore , 500);
+		}
+
+		function filter(ele){
+			$("#ping-slider-name").text($(ele).attr("cate"));
+			$(".icon-0a").addClass("icon-0b");
+			$(".icon-0a").removeClass("icon-0a");
+			$(ele).children("span").removeClass("icon-0b");
+			$(ele).children("span").addClass("icon-0a");
+			pfilter_type = $(ele).attr("filter");
+			poffset = 0;
+			$("#ping-group-table").html("");
+			pingLoadMore();
+		}
+
+		</script>
+	</div>
+

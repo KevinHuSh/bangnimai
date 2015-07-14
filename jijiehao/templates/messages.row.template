@@ -1,0 +1,11 @@
+<div class="row" onclick="act_table('#gid#')">
+		<span style="width:140px;height:100%">
+			<img src="#img#" class="avatar trans_center"/>
+		</span>
+		<span style="width:410px;color:#999999;font-size:20pt;height:100%;margin:5px;">
+			#name# 申请加入你的活动<font color="red">#summary#</font>
+		</span>
+		<span style="width:75px;height:100%;">
+			<SPAN class="#icon# trans_center" style="width:20px;height:40px;"></SPAN>
+		</span>
+</div>

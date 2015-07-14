@@ -1,0 +1,185 @@
+<div data-role="page" id="a-activity"> 
+	<div class="header "></div>
+	<div class="header position-fixed">
+		<div>
+			<a href="#" data-rel="back">
+				<span style="height:100%;width:120px" onclick="goback(this)">
+				<span class="left-btn icon-n back-arrow">
+				</span>
+				<span style="width:auto;font-size:24pt;color:#666666;">返回</span>
+			</span>
+			</a>
+			<span class="header-title" style="left:120px;text-align:left;">
+				活动链
+			</span>
+		</div>
+	</div>
+	<div id="activity-v_main_act_info">
+		
+	</div>
+	<div id="activity-comments" class="comments" style="display: none;">
+		<div><input type="text" name="cmt" id="activity-cmt" placeholder="我也来说一句.." /></div>
+		<div style="max-height:600px;overflow:scroll;" id="activity-cmts-frame">
+		</div>
+	</div>
+	<div style="height:80px;line-height:80px; border-bottom:1px solid #ebebeb; font-size: 24pt;">
+		<span style="border-left: 5px solid red;width:2px;margin:25px;height:24pt;"></span>最佳搭配
+	</div>
+	<div id="activity-attaches">
+	</div>
+	<div class="footer">
+		<span class="trans_vertical" onclick="whereto()" id="activity-gowhere">去加塞</span>
+		<span class="trans_vertical" onclick="createGroup()">创建安排</span>
+	</div>
+
+
+	<script type="text/javascript">
+    $.mobile.loading( 'show', {
+        text: "加载中，请稍候……",
+        textVisible: true
+    });
+	$("#a-activity").on('pagebeforeshow',function(){
+		$("#activity-gowhere").hide();
+
+			var aid = getUrlParameter("aid") ;//alert("http://jijiehao.hello987.com/db_driver.php?method=v_active&gid=" + gid +"&cb=?");
+
+			$.getJSON(
+				"http://jijiehao.hello987.com/db_driver.php?method=v_active&aid=" + aid +"&cb=?", 
+				function(data){
+					var json  = data[0];
+					$("#activity-v_main_act_info").load("templates/main_act_info.template?v=1", function(){
+						var raw = $(this).html();
+						raw=replace_template(raw, ["addr", "tm", "title", "cmt_count", "detail", "main_aid"], json);
+						raw = raw.replace("#cover_img#", json["cover_img"]).replace("#name#", "").replace("组合：", "");
+						raw = raw.replace("id=\"location\"", "id=\"activity-location\"").replace("id=\"detail\"", "id=\"activity-detail\"");
+						$(this).html(raw);
+
+						activity_cover_fitin();
+
+						if (typeof json["img"] === "undefined" || json["img"].length == 0)
+							$("#activity-v_main_act_info .avatar").hide();
+
+						showSuggestions(json["main_aid"]);
+						switch_location_detail_comment();
+						showComments();
+						$("#activity-detail span, #activity-detail p").css("background-color", "#ebebeb");
+						$.mobile.loading("hide");
+					});
+				});
+		});
+
+
+	function activity_cover_fitin()
+	{
+		$("#a-activity .cover > img").load(function() {
+			if ($( this ).height()*1.0/$( this ).width() < 384.0/640){
+				$( this ).css("height", "100%");
+				$( this ).css("width", "auto");
+			}
+			else{
+				$( this ).css("width", "100%");
+				$( this ).css("height", "auto");
+			}
+		});
+	}
+
+	function showSuggestions(aid){
+		$.getJSON(
+			"http://jijiehao.hello987.com/db_driver.php?method=v_sugg&aid=" + aid + "&cb=?",
+			function(data){
+				$.get("templates/sugg.template?v=2", function(html){
+					for (var i = 0; i < data.length; i++) {
+							var raw=replace_template(html, ["aid", "cover_img", "category", "title"], data[i]);//alert(raw);
+							$("#activity-attaches").append(raw);
+						}
+						$("#activity-attaches").append("<div class=\"attach\"></div>");
+						switchIcon();
+					});
+			});
+	}
+
+	function switch_location_detail_comment()
+	{
+		$(".tabs > span").each(function(){
+			$("#activity-"+$(this).attr("show-tab")).hide();
+		});
+
+		$("#activity-location").show();
+
+		$(".tabs > span").click(function(){
+			$(".tabs > span").each(function(){
+				$(this).css("color", "#999999");
+				$(this).css("border-bottom", "0px");
+				$("#activity-" + $(this).attr("show-tab")).hide();
+			});
+			$("#activity-"+$(this).attr("show-tab")).show();
+			$(this).css("color", "red");
+			$(this).css("border-bottom", "2px solid red");
+		});
+
+		$("#activity-cmt").bind("change", function(event){
+			$.getJSON(
+				"http://jijiehao.hello987.com/db_driver.php?method=comment&uid=" + userID +"&aid="+$("#a-activity span[show-tab='comments']").attr("aid")+"&cmt="+$("#activity-cmt").val()+"&cb=?", 
+				function(data){
+					loadComments($("#a-activity span[show-tab='comments']").attr("aid"));
+				});  
+		});
+	}
+
+	function loadComments(aid)
+	{
+		$("#activity-cmts-frame").html("");
+		$.getJSON(
+			"http://jijiehao.hello987.com/db_driver.php?method=v_comment&aid=" + aid + "&cb=?",
+			function(data){
+				$.get("templates/comment.template", function(html){
+					for (var i = 0; i < data.length; i++) {
+						var raw=replace_template(html, ["img", "name", "tm", "cmt"], data[i]);
+						//alert(raw);
+						$("#activity-cmts-frame").append(raw);
+					}
+				});
+			});
+	}
+
+	function showComments(){
+		$("#a-activity span[show-tab='comments']").click(function(){
+			loadComments($(this).attr("aid"));
+		});
+	}
+
+	function whereto(){
+		var aid = $("#activity span[show-tab='comments']").attr("aid") ;
+		var url = "./whereto.html?aid=" + aid;
+		changePage(url);
+	}
+
+	function switchIcon(){
+		$(".switch").click(function(){
+			if($(this).hasClass("icon-i")){
+				$(this).removeClass("icon-i");
+				$(this).addClass("icon-f");
+			}
+			else{
+				$(this).removeClass("icon-f");
+				$(this).addClass("icon-i");
+			}
+		});
+	}
+
+	function createGroup(){
+		var aids = $("#a-activity span[show-tab='comments']").attr("aid") ;
+		$("#a-activity .icon-i").each(function(){
+			aids += "," + $(this).attr("aid");
+		});
+		var url = "./create_group.html?aids=" + aids;
+		changePage(url);
+	}
+
+	function showActivity(ele){
+		var url = "./activity.html?aid=" + $(ele).find(".switch").attr("aid");
+		changePage(url);
+	}
+	</script>
+</div>
+

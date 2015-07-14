@@ -1,0 +1,34 @@
+<div  data-role="page" id="name-setting">
+    <div class="header "></div>
+    <div class="header position-fixed">
+        <div>
+            <a href="#" data-rel="back">
+                <span style="height:100%;width:120px" onclick="goback(this)">
+                <span class="left-btn icon-n back-arrow" >
+                </span>
+                <span style="width:auto;font-size:24pt;color:#666666;">返回</span>
+            </span>
+            </a>
+            <span class="header-title" style="width:400px;">
+                我的昵称
+            </span>
+        </div>
+    </div>
+    <div style="height:90px;line-height:90px;margin-top:20px;font-size:20pt;">
+        <input type="text" id="username" placeholder="给自己搞个拉风的昵称吧！"/>
+    </div>
+    <script type="text/javascript">
+    $("#name-setting").on('pagebeforeshow',function(){
+        $("#username").val(getUrlParameter("n"));
+
+        $("#username").on("change", function(event){
+            $.getJSON(
+                "http://jijiehao.hello987.com/db_driver.php?method=userinfo&uid="+userID+"&param=name='"+$(this).val()+"'&cb=?",
+                function(data){
+                    localStorage.setItem("userName", $(this).val());
+                    alert($(this).val());
+                });
+        });
+    });
+    </script>
+</div>

@@ -1,5 +1,5 @@
 <img src="#img#" class="avatar position-avatar"/>
-<div class="cover">
+<div class="cover-img">
 	<img src="#cover_img#"/>
 </div>
 <div class="user-info">

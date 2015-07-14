@@ -1,0 +1,78 @@
+<div  data-role="page" id="myschedule">
+	<div class="header "></div>
+	<div class="header position-fixed">
+		<div>
+			<a href="#" data-rel="back">
+				<span style="height:100%;width:120px" onclick="goback(this)">
+				<span class="left-btn icon-n back-arrow">
+				</span>
+				<span style="width:auto;font-size:24pt;color:#666666;">返回</span>
+			</span>
+			</a>
+			<span class="header-title" style="width:400px;">
+				我的安排
+			</span>
+		</div>
+	</div>
+	<div id="myschedule-rows" style="background-color:#ebebeb;">
+		
+	</div>
+	<script type="text/javascript">
+
+	$.mobile.loading( 'show', {
+		text: "加载中，请稍候……",
+		textVisible: true
+	});
+	$("#myschedule").on('pagebeforeshow',function(){
+		$("#myschedule-rows").html("");
+		$.get("templates/myschedule.row.template?v=2", function(html){
+			$.getJSON(
+				"http://jijiehao.hello987.com/db_driver.php?method=v_app&uid=" + userID + "&cb=?",
+				function(data){
+					for (var i = 0; i < data.length; i++) {
+						var raw = replace_template(html, ["name", "gid", "img"], data[i]);
+						if (!data[i]["approved"]){
+							raw = raw.replace("#color#", "#66FF66");
+							raw = raw.replace("#status#", "已创建");
+						}
+						else if (parseInt(data[i]["approved"]) != 2){
+							raw = raw.replace("#color#", "red");
+							raw = raw.replace("#status#", "申请中");
+						}else if (parseInt(data[i]["approved"]) == 2){
+							raw = raw.replace("#color#", "blue");
+							raw = raw.replace("#status#", "已加入");
+						}
+						$("#myschedule-rows").append(raw);
+					};
+					load_schedule_cells();
+				});
+		});
+	});
+
+	function load_schedule_cells()
+	{
+		$.get("templates/myschedule.act.template", function(html){
+			$("#myschedule-rows .acts").each(function(){
+				var gid = $(this).attr("gid");
+				var obj = $(this);
+				$(obj).html("");
+				$.getJSON(
+					"http://jijiehao.hello987.com/db_driver.php?method=v_act_table&gid=" + gid + "&cb=?",
+					function(data){
+						for (var i = 0; i < data.length; i++) {
+							var raw = replace_template(html, ["cover_img", "title", "category"], data[i]);
+							$(obj).append(raw);
+						};
+						$.mobile.loading("hide");
+					});
+			});
+		});
+	}
+
+	function act_table(gid)
+	{
+		var url = "./act_table.html?gid="+gid+"&uid="+userID;
+		changePage(url);
+	}
+	</script>
+</div>

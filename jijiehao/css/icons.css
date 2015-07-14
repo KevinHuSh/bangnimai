@@ -218,11 +218,142 @@
 	-moz-background-size: 100% 100%; /*  Firefox  */
 }
 
-
 .icon-h{
 	width:auto;
 	height:auto;
 	background: url(../icons/h.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-4{
+	width:auto;
+	height:auto;
+	background: url(../icons/4.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-k{
+	width:auto;
+	height:auto;
+	background: url(../icons/k.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-z{
+	width:auto;
+	height:auto;
+	background: url(../icons/z.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-w{
+	width:auto;
+	height:auto;
+	background: url(../icons/w.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-o{
+	width:auto;
+	height:auto;
+	background: url(../icons/o.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-p{
+	width:auto;
+	height:auto;
+	background: url(../icons/p.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-q{
+	width:auto;
+	height:auto;
+	background: url(../icons/q.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-r{
+	width:auto;
+	height:auto;
+	background: url(../icons/r.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-s{
+	width:auto;
+	height:auto;
+	background: url(../icons/s.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-6{
+	width:auto;
+	height:auto;
+	background: url(../icons/6.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-0a{
+	width:auto;
+	height:auto;
+	background: url(../icons/0a.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; /*  Safari  */
+	-khtml-background-size: 100% 100%; /*  Konqueror  */
+	-moz-background-size: 100% 100%; /*  Firefox  */
+}
+
+.icon-0b{
+	width:auto;
+	height:auto;
+	background: url(../icons/0b.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	-webkit-background-size: 100% 100%; /*  Safari  */

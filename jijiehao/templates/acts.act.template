@@ -1,0 +1,16 @@
+<div class="act">
+	<span>
+		<img src="#cover_img#" class="act-avatar trans_center"/>
+	</span>
+	<span>
+		<div style="max-height:100%;height:auto;" class="trans_vertical">
+			<div style="height:50px;color:red;font-size:24pt;">#category#</div>
+			<div style="height:auto;color:#999999;font-size:20pt;">#title#</div>
+		</div>
+	</span>
+	<span>
+		<div onclick="goto('#url#')" style="height:50px;width:110px;background-color:red;color:white;font-size:20pt;text-align: center;line-height:50px;" class="trans_center ui-corner-all">
+		预定
+		</div>
+	</span>
+</div>

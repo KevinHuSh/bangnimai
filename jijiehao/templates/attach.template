@@ -1,9 +1,7 @@
 
-<div class="attach">
+<div class="attach" onclick="showActivity(this)">
 	<span>
-		<a href="#create_group" >
 		<img src="#cover_img#" class="act-avatar trans_center"/>
-	</a>
 	</span>
 	<span>
 		<div>

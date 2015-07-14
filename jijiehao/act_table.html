@@ -1,87 +1,274 @@
-<html>
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=0.5 maximum-scale=3, user-scalable=yes">
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-	<link rel="stylesheet" href="css/home.css">
-	<link rel="stylesheet" href="css/icons.css">
-	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-	<script src="js/act_table.js?v=?"></script>
-</head>
-<body>
-	<div  data-role="page" id="act_table">
-		<div class="header "></div>
-		<div class="header position-fixed">
-			<div>
-				<a href="#activity">
-					<span class="left-btn icon-n back-arrow">
-					</span>
-					<span style="width:auto;font-size:24pt;color:#666666;">返回</span>
-				</a>
-				<span class="header-title" style="width:400px;">
-					活动表
-				</span>
-				<a href = "#" > 
-					<span class="right-btn icon-j">
-					</span>
-				</a>
-
-			</div>
-		</div>
-		<div class="title">
-			<font color="red">#name#</font>#嘿！我们是教育人的！【严肃】【捂嘴偷笑】
-		</div>
+<div  data-role="page" id="act_table">
+	<div class="header "></div>
+	<div class="header position-fixed">
 		<div>
-			<div class="act">
-				<span style="width:160px;">
-					<img src="http://i.huffpost.com/gen/1439523/images/o-BREAKFAST-HEALTHY-facebook.jpg" class="act-avatar trans_center"/>
+			<a href="#" data-rel="back">
+				<span style="height:100%;width:120px" onclick="goback(this)">
+				<span class="left-btn icon-n back-arrow">
 				</span>
-				<span style="width:250px;margin-right:30px;">
-					<div style="max-height:100%;height:auto;" class="trans_vertical">
-						<div style="height:50px;color:red;font-size:24pt;">轻活动</div>
-						<div style="height:auto;color:#999999;font-size:20pt;">去大铁棍子医院，找捅主任，今天做手术，明天就上班</div>
-					</div>
-				</span>
-				<span  style="height:209px;width:180px;border-bottom: 1px solid #ebebeb;border-left: 1px solid #ebebeb;color:#999999;text-align:center;">
-					<div class="trans_center">
-						<div style="font-size:24pt;">早上</div>
-						<div style="font-size:20pt;">9:00 - 11:00</div>
-					</div>
-				</span>
-			</div>
-			<div class="act">
-				<span style="width:160px;">
-					<img src="http://i.huffpost.com/gen/1439523/images/o-BREAKFAST-HEALTHY-facebook.jpg" class="act-avatar trans_center"/>
-				</span>
-				<span style="width:250px;margin-right:30px;">
-					<div style="max-height:100%;height:auto;" class="trans_vertical">
-						<div style="height:50px;color:red;font-size:24pt;">轻活动</div>
-						<div style="height:auto;color:#999999;font-size:20pt;">去大铁棍子医院，找捅主任，今天做手术，明天就上班</div>
-					</div>
-				</span>
-				<span  style="width:180px;border-bottom: 1px solid #ebebeb;border-left: 1px solid #ebebeb;color:#999999;text-align:center;">
-					<div class="trans_center">
-						<div style="font-size:24pt;">早上</div>
-						<div style="font-size:20pt;">9:00 - 11:00</div>
-					</div>
-				</span>
-			</div>
-		</div>
-		<div style="height:110px;font-size:24pt;color:#999999;margin-top:20px;">
-			<span style="width:120px;height:100%;">
-			<img src="http://img.blog.163.com/photo/8nVgS_p8P0dXqYvJfHQ6Rw==/1137440380888679767.jpg" class="avatar trans_center"/>
-		</span>
-			<span style="width:490px;max-height:100%;padding:5px;" class="trans_vertical">
-				去大铁棍子医院，找捅主任，今天做手术，明天就上班;去大铁棍子 
+				<span style="width:auto;font-size:24pt;color:#666666;">返回</span>
 			</span>
-		</div>
-		<div style="height:110px;line-height:110px;font-size:24pt;color:#999999;margin-top:20px;text-align:center;margin-top:2px;">
-			联系方式：<font color="red">p544-44944-3p3 </font>
-		</div>
-		<div style="height:110px;line-height:110px;font-size:30pt;color:red;margin-top:20px;text-align:center;margin-top:2px;">
-			申请中……</font>
+			</a>
+			<span class="header-title" style="width:400px;">
+				活动表
+			</span><!--
+			<span class="right-btn icon-l" onclick="slideup(event)">
+			</span>
+-->
 		</div>
 	</div>
-</body>
-</html>
+	<div id="act_table-content" style="background-color:#ebebeb;">
+		
+		
+	</div>
+	<div id="applying" style="height:110px;line-height:110px;font-size:30pt;color:red;margin-top:20px;text-align:center;margin-top:2px;">
+		申请中……
+	</div>
+	<div id="confirm" style="left:170px;color:white;background-color:red;width:300px;height:80px;text-align:center;line-height:80px;font-size:30pt;" onclick="apply()">确定
+	</div>
+
+	<div style="font-size:24pt;color:#999999;margin-top:20px;background-color:#ebebeb;" id="applications">
+		<div class="row">
+			<span style="width:130px;">
+				<img src="http://img.blog.163.com/photo/8nVgS_p8P0dXqYvJfHQ6Rw==/1137440380888679767.jpg" class="avatar trans_center"/>
+			</span>
+			<span style="color:#999999;font-size:24pt;line-height:110px;width:330px;">Kevin 申请加入</span>
+			<span style="width:160px">
+				<span class="reject trans_center ui-corner-all">阻止</span>
+			</span>
+		</div>
+		<div class="row">
+			<span style="width:130px;">
+				<img src="http://img.blog.163.com/photo/8nVgS_p8P0dXqYvJfHQ6Rw==/1137440380888679767.jpg" class="avatar trans_center"/>
+			</span>
+			<span style="color:#999999;font-size:24pt;line-height:110px;width:330px;">Kevin 申请加入</span>
+			<span style="width:160px">
+				<span class="approve trans_center ui-corner-all">同意</span>
+			</span>
+		</div>
+		<div class="row"></div>
+	</div>
+
+	<div class="footer" style="z-index:888;">
+		<span class="trans_center"  onclick="slideup(event)">
+			<span class="icon-m" style="left:30px;top:20px;width:40px;height:40px;"></span>
+			分享
+		</span>
+		<span>
+			<font color="red" id="app-number">0</font>人申请中
+		</span>
+	</div>
+
+	<div id="share-pannel" style="height:0;width:640px;position:fixed;z-index:999;background-color:#fcfcfc;top:auto;bottom:0px;">
+		<div style="top:0;bottom:auto;height:70px;line-height:70px;font-size:20pt;color:#999999;text-align:center;background-color:#fcfcfc;">
+			把活动炫给你的朋友吧！
+		</div>
+
+		<div style="height:180px;color:#999999;text-align:center;background-color:#fcfcfc;font-size:15pt;">
+			<span style="width:160px;height:100%;background-color:#fcfcfc;" onclick="umengShare('sina')">
+				<div style="width:117px;height:117px;margin:0px 20px 0 20px;" class="icon-q"></div>
+				<div style="height:50px;line-height:50px;background-color:#fcfcfc;">新浪微博</div>
+			</span>
+			<span style="width:160px;height:100%;background-color:#fcfcfc;" onclick="umengShare('qzone')">
+				<div style="width:117px;height:117px;margin:0px 20px 0 20px;" class="icon-r"></div>
+				<div style="height:50px;line-height:50px;background-color:#fcfcfc;">QQ空间</div>
+			</span>
+			<span style="width:160px;height:100%;background-color:#fcfcfc;" onclick="umengShare('wechat-timeline')">
+				<div style="width:117px;height:117px;margin:0px 20px 0 20px;" class="icon-o"></div>
+				<div style="height:50px;line-height:50px;background-color:#fcfcfc;">朋友圈</div>
+			</span>
+			<span style="width:160px;height:100%;background-color:#fcfcfc;"  onclick="umengShare('wechat-session')">
+				<div style="width:117px;height:117px;margin:0px 20px 0 20px;" class="icon-p"></div>
+				<div style="height:50px;line-height:50px;background-color:#fcfcfc;">微信好友</div>
+			</span>
+		</div>
+		
+	</div>
+
+	<script type="text/javascript">
+
+		$.mobile.loading( 'show', {
+			text: "加载中，请稍候……",
+			textVisible: true
+		});
+
+	$("#act_table").on('pagebeforeshow',function(){
+		var gid = getUrlParameter("gid") ;
+		var uid = getUrlParameter("uid") ;
+
+		$("#applications").html("");
+		$("#act_table .footer").hide();
+		$("#applying").hide();
+		$("#confirm").hide();
+		$("#confirm").attr("onclick", "apply('"+gid+"')");
+
+		//alert(gid);
+		$.getJSON(
+			"http://jijiehao.hello987.com/db_driver.php?method=v_act_table&gid=" + gid + "&cb=?",
+			function(data){
+				$.get("templates/act_table.template?v=1", function(html){
+					$("#act_table-content").html("");
+					var raw=replace_template(html, ["img", "name", "summary", "phone", "info"], data[0]);
+					$.get("templates/act_table.act.template", function(act){
+						for (var i = 0; i < data.length; i++) {
+							raw = raw.replace("#_#", replace_template(act, ["category", "title","cover_img"], data[i])+"#_#");
+						}
+						raw = raw.replace("#_#", "");
+						$("#act_table-content").html(raw);
+						$.mobile.loading("hide");
+					});
+				});
+			});//alert(uid + " == " + userID);
+
+		if(parseInt(uid) != parseInt(userID)){
+			$.getJSON(
+				"http://jijiehao.hello987.com/db_driver.php?method=v_app&gid=" + gid + "&uid="+userID+"&cb=?",
+				function(data){
+					if (data.length == 0)
+						$("#confirm").show();
+					else if (data[0]["approved"] == 1)
+						$("#applying").show();
+					else if (data[0]["approved"] == 2){
+						$("#applying").show();
+						$("#applying").text("申请已通过");
+					}
+					else if (data[0]["approved"] == 3){
+						$("#applying").show();
+						$("#applying").text("申请已被残酷的拒绝");
+					}
+				});
+			return;
+		}
+
+		$("#act_table .footer").show();
+		$.get("templates/act_table.app.template?v=1", function(app){
+			$.getJSON(
+				"http://jijiehao.hello987.com/db_driver.php?method=v_message&gid=" + gid + "&cb=?",
+				function(uinfo){
+					for (var i = 0; i < uinfo.length; i++) {
+						var raw = replace_template(app, ["img" , "name"], uinfo[i]);
+						if (parseInt(uinfo[i]["approved"]) == 1){//1 applying, 2. approved, 3. rejected
+							raw = raw.replace("#rej-appr-sty#", "reject");
+							raw = raw.replace("#rej-appr#", "同意");
+							raw = raw.replace("#func#", "approve("+gid+", '"+uinfo[i]['uid']+"', this)");
+						}
+						else{
+							raw = raw.replace("#rej-appr-sty#", "approve");
+							raw = raw.replace("#rej-appr#", "已同意");
+							raw = raw.replace("#func#", "");
+						}
+						$("#applications").append(raw);
+					}
+					if(uinfo.length > 0)$("#applications").append("<div class='row'></div>");
+					//alert($("#app-number").text());
+					$("#app-number").text(uinfo.length.toString());
+				});
+		});
+	});
+
+function apply(gid){
+	$.getJSON(
+		"http://jijiehao.hello987.com/db_driver.php?method=apply&param='" + userID + "',"+gid+"&cb=?",
+		function(data){
+			$("#confirm").hide();
+			$("#applying").show();
+		});
+}
+
+function approve(gid, uid, ele){
+	$.getJSON(
+		"http://jijiehao.hello987.com/db_driver.php?method=approve&gid=" + gid + "&uid="+uid+"&cb=?",
+		function(data){
+			$(ele).text("已同意");
+			$(ele).removeClass("reject");
+			$(ele).addClass("approve");
+		});
+}
+
+function slideup(e){
+	$("#share-pannel").animate({height: "400px"}, 200);
+	$('body').click(function() {
+		$("#share-pannel").animate({height: "0px"}, 200);
+	});
+	e.stopPropagation(); 
+}
+
+function umengShare(plat){
+
+	$("#share-pannel").height(0);
+	navigator.screenshot.save(function(error,res){
+		alert(res.filePath.replace("/private", ""));
+		if(error){
+			console.error(error);
+		}else{
+			console.log('ok',res.filePath);
+
+			if (plat == "wechat-session"){
+				weixinShare(res.filePath.replace("/private", "file://"), WeChat.Scene.session);
+				return;
+			}
+			if (plat == "wechat-timeline"){
+				weixinShare(res.filePath.replace("/private", "file://"), WeChat.Scene.timeline);
+				return;
+			}
+
+			var opt = {
+				'data' : {
+					'content' : {
+						'text' : '我都安排好了，求吐槽!',
+						//'furl' : 'http://ww4.sinaimg.cn/mw690/6ed69a02gw1eqxzdvvq76j2096096mxr.jpg',
+						'img' : res.filePath.replace("/private", "")
+					}
+				}
+			};
+			$.fn.umshare.shareSubmit(plat,opt);
+			alert_("已分享！");
+		}
+	}, 'jpg', 50, 'keivn.shot');
+}
+
+function weixinShare(imageURI, sessionOrTimeLine)
+{
+	var options = new FileUploadOptions();
+	options.fileKey="img";
+	options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+	options.mimeType="image/jpeg";
+
+	var params = {"uid": userID};
+	options.params = params;
+	options.chunkedMode = true;
+
+	var ft = new FileTransfer();
+	ft.upload(imageURI, 
+		"http://jijiehao.hello987.com/upload_img_share.php", 
+		function (r) {
+			console.log("Code = " + r.responseCode);
+			console.log("Response = " + r.response);
+			console.log("Sent = " + r.bytesSent);
+
+			if (r.responseCode != 200){
+				alert_("抱歉，分享失败！");
+				return;
+			}
+			WeChat
+			.share({
+				type: WeChat.ShareType.webpage,
+				title: '我都安排好了，求吐槽!',
+				url: jQuery.parseJSON(r.response)['info'],
+				thumbData: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3FpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo3MmZhYzc4ZC0yNzdlLTQ1NDMtOTJlMy00ZjUxMTQ0ZTA2N2IiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6REU2QkE1QzkxRDg3MTFFNUI0ODQ5ODQxQkNBRkEwMTkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6REU2QkE1QzgxRDg3MTFFNUI0ODQ5ODQxQkNBRkEwMTkiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOmE0NjE3MDZkLWJkYmEtNGY0My1hMDUxLTExNjY1YTJlN2VlNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo3MmZhYzc4ZC0yNzdlLTQ1NDMtOTJlMy00ZjUxMTQ0ZTA2N2IiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4LvPQbAAAEgklEQVR42sxYa2wUVRg9s90CgWBTQCvQahUVaotpWgSsWrQP8FGBKFT4gQ8CbXhY1KjxhwnExNhEpRoi1GoklUQp1lcN1dCCtAputrbykBSwTY3UqoiP0hi1jx3Pt3dmZ3e77bZ2Z+NNzs7c+92Ze+a73z33u6vpj2UjRMkh7jeuVxDjEJnSS3xPHCL2EQeDO2hBhOYQu4jbEJ1ymNhAnDYbHN7f7Q3yu4hwR5EMjLHcxtgBHhLPuIg4XJsB3LQUiE8Afv8Z+LIG+LbFbmLdxELxlAO6rhG7iTjMSgcKioE/ztOZVeoqdWnXdTsRZ3DQnIAn12AHZN0DnGkC9r+meB9jzN1dpNrbmu32knDIFQ8V+pjGTwfajwWybz+u2u31kIlCJ39yfBwvXgCmJSqjWaQu7f5t9pUcEvIk+arNB4DbVwN/9VAtWoEkxnpmPuNpLwl5okEoyQmPboleC2PmylQgu9DqIlPYXB8tD41zeL/chGcAqHkV6GqjjQR+OQd8vEu1+/ezEZq+IWPwp0+8BFi6kautAuj5DdEsml6cruN/VJxRClbgBu4OeWuA5FRV/+4UUP8WcKIxyEPr0+z30PJHgLuKQttqGRYf7vDzkMdjv2eGIiNFbCK+xw9HaMqcscDKJ9WGrGnA0Y+Ad18A+vuUffGD4d+R/wC3qUMR8tCKJ1RsmEXue/8mqRdVPTkt/Dukj8HD4b0ZC7KWDR5gUaFlH9li9/V3jFnMEGpN6Ja942R4Ph0nfP1H5qH4y4GnKoGKk+oqddP2xQeDB/isyrJ/8kZ4QtLH6B+zbe7kbeorh8GWciDtFhXAlzHnT74eaNynbKeOKGWffjXQ9w/JvANUPc+X9yv7j+1ADNOuOQtCk5ElX7/HN5amr5oZXod2nwEmTLLqsoLWXDW64M9cDNy5DrgmXdXbuGnXvs4NvS5IqUcSeJJTz73Vqp9twqhXZ9OnCmH3spUJ4T00bSYPK2XAdfNI5iug/HFmAp2DN+TUm4EUTk1CMjCFcabxUDPAqbvwA3DutBK/tpZhUxlNv+/S/751yIAZuUp7JJFzxIR/pvMsULkV+PrgEITunRpIKCMP2PiKut+5hXNcH+Ip6saCAmD100Di7NF/iHjo7eeA918OQWh5/EVeJ/ta3mxVZzIpci5bmxL4xIxZwGaujJSFY1N4IVVKz7prA47aIoxdwwqdv02ORGWfj52M6eWHng0eo1OE0R0ggjs2K8/82sX7TaothvpTshNYV8qsd0LkMgHRrtk3+ovwEU0vmLSEpqHX4/iJwNb3Apd9JIsEePVLZm2JTNkBZOa5UMnEXpCZZ7kwdjzwzF77yEiZOsMcz0XUyclVR0n5w9SNbq92lJRbOvEoj9TpOfYmcAN9Ml43sVa4OAzFlf9nJI/o8QabtN1Bmc9eYX+u3fFND8dbRrQa6Qe9UVbMQP6pgYE8H9uLXN6lvb7UfjL9vS4crZlPDg3m+V6lsO79wKpE01NZnKp8BrO4R/4ZkaN2bIQo/Enw9AlqB6rRWF2H7vMBOvOvAAMAkU7FIZu1lPUAAAAASUVORK5CYII="
+			}, sessionOrTimeLine, function () {
+				console.log('分享成功~');
+			}, function (reason) {
+				console.log("Fail", reason);
+			});
+		}, 
+		fail, options);
+
+	console.log(imageURI + " uploading");
+}
+
+function fail(error) {
+	console.log("error", error.code);
+}
+</script>
+</div>

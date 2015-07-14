@@ -9,11 +9,23 @@ category VARCHAR(30) NOT NULL,
 district VARCHAR(50),
 addr VARCHAR(100),
 detail VARCHAR(500),
-tm TIMESTAMP,
-longtitude float,
-latitude float,
+tm TIMESTAMPi NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+longtitude float(12, 9),
+latitude float(12, 9),
 follower_no int,
-cover_img VARCHAR(1000)
+cover_img VARCHAR(1000),
+url VARCHAR(1000) ,
+srouce VARCHAR(50),
+city VARCHAR(50),
+rank int,
+block_lon int default -1,
+block_lat int default -1,
+index(url),
+index(category),
+index(block_lat),
+index(block_lon),
+index(city),
+CONSTRAINT C_ACT_URL unique(url)
 )  ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 CREATE TABLE comment(
@@ -48,10 +60,13 @@ create_tm TIMESTAMP,
 joinable int default 1
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
+
+drop table IF EXISTS active_attach;
 create table active_attach(
 gid INT(6),
 aid int(6),
-index(gid)
+index(gid),
+CONSTRAINT C_ATT unique(gid, aid)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 drop table IF EXISTS participate;
@@ -68,13 +83,45 @@ create table gather(
 wid INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 uid  VARCHAR(100),
 name VARCHAR(50) default "炮友OMG",
-latitude float,
-longtitude float,
-addr varchar(50) default "天堂",
+latitude float(12, 9),
+longtitude float(12, 9),
+addr varchar(200) default "天堂",
 status int default 1,
 tm TIMESTAMP,
-index(uid)
+index(uid),
+CONSTRAINT C_UID_NAME unique(uid, name)
 )  ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+drop table IF EXISTS city_location;
+create table city_location(
+wid INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+from_lat  float(12, 9),
+to_lat  float(12, 9),
+from_lon  float(12, 9),
+to_lon  float(12, 9),
+city VARCHAR(50),
+index(city)
+)  ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+DROP TABLE IF EXISTS `tinyint_asc`;
+
+CREATE TABLE `tinyint_asc` (
+ `value` tinyint(3) unsigned NOT NULL default '0',
+ PRIMARY KEY (value)
+) ;
+
+INSERT INTO `tinyint_asc` VALUES (0),(1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
+
+drop view IF EXISTS v_comment_count;
+CREATE VIEW v_comment_count as
+select 
+active_group.gid,
+count(cmt) as cmt_count
+from 
+active_group 
+left join active_attach on active_group.gid=active_attach.gid
+left join comment on active_attach.aid = comment.aid or active_group.main_aid=comment.aid
+group by active_group.gid;
 
 drop view IF EXISTS v_comment_count;
 CREATE VIEW v_comment_count as
@@ -89,17 +136,13 @@ group by active_group.gid;
 
 drop view IF EXISTS v_top3_active;
 CREATE VIEW v_top3_active as
-select 
-active_group.gid,
-concat(activity.cover_img, ",", group_concat(a1.cover_img SEPARATOR ",")) as imgs,
-concat(activity.category, " +", group_concat(a1.category SEPARATOR " +")) as title
-from 
-active_group
-left join activity on active_group.main_aid=activity.aid 
-left join active_attach on active_group.gid = active_attach.gid
-left join activity a1 on a1.aid = active_attach.aid
-group by active_group.gid, activity.cover_img
-;
+SELECT
+   `active_group`.`gid` AS `gid`,
+   concat(ma.cover_img, ',', group_concat(`a`.`cover_img` separator ',')) AS `imgs`,
+   concat(ma.category, '+', group_concat(`a`.`category` separator ' +')) AS `title`
+FROM 
+(`active_group` join activity ma on ma.aid=active_group.main_aid left join `active_attach` on `active_group`.`gid` = `active_attach`.`gid`
+) join `activity` a on a.`aid` = `active_attach`.`aid` group by `active_group`.`gid`;
 select * from v_top3_active;
 
 drop view IF EXISTS v_activity;
@@ -109,11 +152,12 @@ active_group.gid,
 active_group.main_aid,
 v_top3_active.imgs, 
 activity.follower_no, 
+activity.rank, 
 user_info.uid, 
 user_info.name, 
 user_info.img,
 v_top3_active.title as title,
-activity.tm, 
+create_tm as tm, 
 activity.longtitude,
 activity.latitude,
 IFNULL(v_comment_count.cmt_count, 0) as cmt_count,
@@ -128,7 +172,7 @@ activity
 where 
 active_group.main_aid=activity.aid and
 v_top3_active.gid = active_group.gid
-;
+order by activity.follower_no desc,activity.rank;
 select * from v_activity limit 10;
 
 drop view IF EXISTS v_main_act_info;
@@ -153,6 +197,20 @@ activity
 where 
 active_group.main_aid=activity.aid;
 
+
+drop view IF EXISTS v_group_aids;
+CREATE VIEW v_group_aids as
+select
+active_group.gid,
+active_group.main_aid,
+concat(active_group.main_aid, ",", IFNULL(group_concat(active_attach.aid SEPARATOR ','), "")) as aids,
+active_group.create_tm,
+active_group.uid
+from
+active_group left join active_attach on active_attach.gid=active_group.gid
+group by active_group.gid, active_group.main_aid, active_group.uid,
+active_group.create_tm;
+
 select
 group_concat(cover_img SEPARATOR ",") as cover_imgs,
 active_group.gid,
@@ -168,6 +226,7 @@ and user_info.uid=active_group.uid
 group by active_group.gid, user_info.img;
 
 select
+activity.aid,
 activity.cover_img,
 activity.title,
 activity.category,
@@ -178,13 +237,23 @@ IFNULL(active_group.summary, '精彩活动安排') as summary,
 user_info.name,
 user_info.img
 from
-activity,
-active_group left join active_attach on active_attach.gid=active_group.gid,
-user_info
+active_group
+left join active_attach on active_attach.gid=19 and active_attach.gid=active_group.gid,
+user_info,
+activity
 where
-active_group.gid=10
+active_group.gid=19
 and active_group.uid=user_info.uid
-and (active_attach.aid=activity.aid or active_group.main_aid=activity.aid);
+and (active_group.main_aid=activity.aid or active_attach.aid=activity.aid)
+group by 
+activity.aid,
+activity.cover_img,
+activity.title,
+activity.category,
+activity.tm,
+phone, summary,
+user_info.name,
+user_info.img,active_group.info;
 
 select 
 participate.gid,

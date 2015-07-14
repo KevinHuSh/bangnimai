@@ -1,0 +1,144 @@
+<div  data-role="page" id="settings">
+	<div class="cover"></div>
+	<div class="pic">
+		<span style="width:128px;height:180px;top:70px;left:130px;">
+			<div class="icon-4" style="width:120px;height:120px;" onclick="takePhoto()"></div>
+			<div style="font-size:20px; color:#999999;line-height:55px;text-align:center;" onclick="takePhoto()">拍照</div>
+		</span>
+		<span style="width:128px;height:180px;top:70px;left:270px;">
+			<div class="icon-k" style="width:120px;height:120px;"></div>
+			<div style="font-size:20px; color:#999999;line-height:55px;text-align:center;">
+				从相册中选择
+			</div>
+		</span>
+		<div class="icon-z" style="position:absolute;width:40px;height:40px;top:300px;left:300px;"></div>
+	</div>
+	<div class="header "></div>
+	<div class="header position-fixed">
+		<div>
+			<a href="#" data-rel="back">
+				<span style="height:100%;width:120px" onclick="goback(this)">
+				<span class="left-btn icon-n back-arrow">
+				</span>
+				<span style="width:auto;font-size:24pt;color:#666666;">返回</span>
+			</span>
+			</a>
+			<span class="header-title" style="width:400px;">
+				我的设置
+			</span>
+		</div>
+	</div>
+	<div style="height:110px;margin-top:1px;" onclick="showImgOption(event)">
+		<span style="line-height:60px;font-size:24pt;width:435px;color:#666666;margin:20px;">头像</span>
+		<span style="width:100px;height:100%;" >
+			<img src="http://img.blog.163.com/photo/8nVgS_p8P0dXqYvJfHQ6Rw==/1137440380888679767.jpg" class="avatar trans_center" id="img"/>
+		</span>
+		<span class="icon-g trans_vertical" style="width:25px;height:40px;margin:0 20px 0 20px;"></span>
+	</div>
+	<div style="height:110px;margin-top:20px;"  onclick="setName(this)">
+		<span style="line-height:70px;font-size:24pt;width:335px;color:#666666;margin:20px;">昵称</span>
+		<span style="width:200px;height:100%;line-height:110px;color:#999999;font-size:24pt;text-align:right;" id="name">
+			Kevin Hu
+		</span>
+		<span class="icon-g trans_vertical" style="width:25px;height:40px;margin:0 20px 0 20px;"></span>
+	</div>
+	<div style="height:110px;margin-top:1px;" onclick="setGender(this)">
+		<span style="line-height:70px;font-size:24pt;width:335px;color:#666666;margin:20px;">性别</span>
+		<span style="width:200px;height:100%;line-height:110px;color:#999999;font-size:24pt;text-align:right;" id="gender">
+			男
+		</span>
+		<span class="icon-g trans_vertical" style="width:25px;height:40px;margin:0 20px 0 20px;"></span>
+	</div>
+	<div style="height:110px;margin-top:1px;">
+		<span style="line-height:70px;font-size:24pt;width:335px;color:#666666;margin:20px;">版本号</span>
+		<span style="width:200px;height:100%;line-height:110px;color:#999999;font-size:24pt;text-align:right;">
+			1.0.0.1
+		</span>
+		<span class="icon-g trans_vertical" style="width:25px;height:40px;margin:0 20px 0 20px;"></span>
+	</div>
+	<div style="height:110px;margin-top:20px;">
+		<span style="line-height:70px;font-size:24pt;width:335px;color:#666666;margin:20px;">去评分</span>
+		<span style="width:200px;height:100%;line-height:110px;color:#999999;font-size:24pt;text-align:right;">
+		</span>
+		<span class="icon-g trans_vertical" style="width:25px;height:40px;margin:0 20px 0 20px;"></span>
+	</div>
+	<img id="Image"/>
+
+	<div style="color:#999999;font-size:15pt;text-align:center;line-height:25px;height: 100px;margin-top:30px;" class="gray-background">
+		<p  class="gray-background" style="color:#666666;font-size:20pt;">上海安初信息科技有限公司 版权所有</p>
+		<p  class="gray-background">Copyright © 2015-2015 Shanghai Anchu Technology. </p>
+		<p  class="gray-background">All Right Reserved</p>
+	</div>
+
+	<input type="file" name="fileToUpload" id="avatar-selector" onchange="uploadAvatar();" accept="image/*" capture="camera" />
+	<script type="text/javascript">
+
+		$.mobile.loading( 'show', {
+			text: "加载中，请稍候……",
+			textVisible: true
+		});
+
+	$("#settings").on('pagebeforeshow',function(){
+		$("#avatar-selector").hide();
+		$.getJSON(
+			"http://jijiehao.hello987.com/db_driver.php?method=v_userinfo&uid=" + userID + "&cb=?",
+			function(data){
+				if (data.length == 0){
+					return;
+				}
+
+				userName = data[0]['name'];
+				$("#img").attr("src", data[0]['img']);
+				$("#name").text(data[0]['name']);
+				$("#gender").text(data[0]['gender']);
+
+				$.mobile.loading("hide");
+			});
+	});
+
+	function showImgOption(e)
+	{
+		$("#avatar-selector").trigger( "click" );return;
+		$("#settings .cover, #settings .pic").show();
+		e.stopPropagation(); 
+		$('body').click(function() {
+			$("#settings .cover, #settings .pic").hide();
+		});
+	}
+
+	function setGender(ele)
+	{
+		var url = "./setting-gender.html?g=" + $(ele).find("span:nth-of-type(2)").text();
+		changePage(url);
+	}
+
+	function setName(ele)
+	{
+		var url = "./setting-name.html?n=" +  $(ele).find("span:nth-of-type(2)").text();
+		changePage(url);
+	}
+
+	function uploadAvatar(){
+		//alert(document.getElementById("avatar-selector").files[0].name);
+		var fd = new FormData();
+		var f = document.getElementById("avatar-selector").files[0];
+		fd.append('img', f);
+		fd.append('uid', userID);
+		var xhr = new XMLHttpRequest();
+		xhr.addEventListener("load", uploadComplete, false);
+		xhr.open("POST", "http://jijiehao.hello987.com/upload_avatar.php");
+		xhr.send(fd);
+	}
+
+	function uploadComplete(evt) {
+		//alert(evt.target.responseText);
+        var obj = jQuery.parseJSON(evt.target.responseText);
+        if (obj["status"] != 1){
+        	alert_('抱歉，上传失败！');
+        	return;
+        }
+        $("#img").attr("src", obj["info"]);
+        $("#personalPanel img").attr("src", obj["info"]);
+      }
+	</script>
+</div>

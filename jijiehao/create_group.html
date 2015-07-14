@@ -1,0 +1,138 @@
+<div data-role="page" id="create_group">
+
+	<div class="header "></div>
+	<div class="header position-fixed">
+		<div>
+			<a href="#" data-rel="back">
+				<span style="height:100%;width:120px" onclick="goback(this)">
+				<span class="left-btn icon-n back-arrow">
+				</span>
+				<span style="width:auto;font-size:24pt;color:#666666;">返回</span>
+			</span>
+			</a>
+			<span class="header-title" style="left:120px;text-align:left;">
+				创建安排
+			</span>
+		</div>
+	</div>
+	<div id="acts" style="margin-top:2px;" >
+	</div>
+	<div id="act_form" style="margin-top:2px;" >
+		<var id="var-aids" style="display:none;"></var>
+		<div class="row">
+			<span>预计人数：</span>
+			<span>
+				<input id="max_follower_no" name="max_follower_no" value="3">
+			</span>
+		</div>
+		<div class="row">
+			<span>时间提醒：</span>
+			<span></span>
+		</div>
+		<div class="row">
+			<span>允许参与：</span>
+			<span style="padding-top:15px;">
+				<input type="checkbox" id="joinable" data-on-text="是" data-off-text="否" data-handle-width="40px" data-label-width="40px" data-size="normal" data-on-color="warning" checked />
+			</span>
+		</div>
+		<div class="row txt">
+			<span>联系方式：</span>
+			<span>
+				<input type="text" placeholder="请填写手机号码" id="phone"/>
+			</span>
+		</div>
+		<div class="row txt">
+			<span>备注便条：</span>
+			<span>
+				<input type="text" placeholder="20字以内" id="info"/>
+			</span>
+		</div>
+		<div class="row">
+			<span>计划名称：</span>
+			<span>
+				<input type="text" placeholder="填写一个酷酷的名字吧" id="summary"/>
+			</span>
+		</div>
+	</div>
+	<div style="height:90px;margin-top:5px;">
+		<div onclick="createGroup()" style="color:white;background-color:red;width:300px;height:80px;text-align:center;line-height:80px;font-size:30pt;" class="trans_center">
+			确定
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$.mobile.loading( 'show', {
+			text: "加载中，请稍候……",
+			textVisible: true
+		});
+
+	$("#create_group").on('pagebeforeshow',function(){
+		var aids = getUrlParameter("aids") ;
+		$("#var-aids").text(aids);
+
+		//alert(aids);
+		$.getJSON(
+			"http://jijiehao.hello987.com/db_driver.php?method=v_acts&aids=" + aids + "&cb=?",
+			function(data){
+				$.get("templates/acts.act.template?v=2", function(html){
+					$("#acts").html("");
+					for (var i = 0; i < data.length; i++) {
+						var raw=replace_template(html, ["aid", "cover_img", "category", "title", "url"], data[i]);
+						$("#acts").append(raw);
+					}
+					$.mobile.loading("hide");
+				});
+			});
+
+		$('#joinable').bootstrapSwitch();
+		$( "#max_follower_no" ).spinner();
+		$( "#max_follower_no" ).spinner('option', 'min', 1);
+		$( "#max_follower_no" ).spinner('option', 'max', 30);
+		$( "#max_follower_no" ).width("100px");
+	});
+
+
+
+	function createGroup()
+	{
+		if($("#var-aids").text().length == 0){
+			alert_("没有选择任何活动，请选择后创建！");
+			return;
+		}
+		if(parseInt($("#max_follower_no").val()) == 0){
+			alert_("预计人数为0， 不妥吧！");
+			return;
+		}
+		if($("#summary").val().length == 0){
+			alert_("跪求备注！");
+			return;
+		}
+		if($("#info").val().length == 0){
+			alert_("跪求一个酷酷的名字！");
+			return;
+		}
+		var param = userID + ",";//uid
+		param += $("#var-aids").text().split(",")[0] + ",";//main_aid
+		param += $("#max_follower_no").val() + ",";//max_follower_no
+		param += ($("#joinable").val() == "on" ? "1" : "0") + ","//joinable
+		param += $("#phone").val() + ","//phone
+		param += $("#summary").val() + ","//summary
+		param += $("#info").val() //info
+		param = param.replace(/"/g, "\\\"").replace(/'/g, "\\\"").replace(/,/g, "','");
+		param = "'" + param + "'";
+		//alert(param);
+
+		$.getJSON(
+			"http://jijiehao.hello987.com/db_driver.php?method=group&param=" + param + "&aids="+$("#var-aids").text()+"&cb=?",
+			function(data){
+				var url = "./act_table.html?gid="+data["id"]+"&uid="+userID;
+				changePage(url);
+		});
+	}
+
+	function goto(url){
+		window.open(url, '_system');
+	}
+
+</script>
+</div>

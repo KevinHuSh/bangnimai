@@ -163,20 +163,21 @@ function load_group_list(){
 			//alert(data);
 		});
 }
+
 function loadComments(aid)
 {
-		$("#cmts-frame").html("");
-		$.getJSON(
-			"http://jijiehao.hello987.com/db_driver.php?method=v_comment&aid=" + aid + "&cb=?",
-			function(data){
-				$.get("templates/comment.template", function(html){
-					for (var i = 0; i < data.length; i++) {
-						var raw=replace_template(html, ["img", "name", "tm", "cmt"], data[i]);
+	$("#cmts-frame").html("");
+	$.getJSON(
+		"http://jijiehao.hello987.com/db_driver.php?method=v_comment&aid=" + aid + "&cb=?",
+		function(data){
+			$.get("templates/comment.template", function(html){
+				for (var i = 0; i < data.length; i++) {
+					var raw=replace_template(html, ["img", "name", "tm", "cmt"], data[i]);
 						//alert(raw);
 						$("#cmts-frame").append(raw);
 					}
 				});
-			});
+		});
 }
 
 function showComments(){
@@ -224,6 +225,8 @@ function init_create_group()
 			aids += "," + $(this).attr("aid");
 		});
 
+		$("#var-aids").text(aids);
+
 		alert(aids);
 		$.getJSON(
 			"http://jijiehao.hello987.com/db_driver.php?method=v_acts&aids=" + aids + "&cb=?",
@@ -237,6 +240,28 @@ function init_create_group()
 				});
 			});
 	});
+}
+
+function createGroup()
+{
+	var param = userID + ",";//uid
+	param += $("#var-aids").text().split(",")[0] + ",";//main_aid
+	param += $("#max_follower_no").val() + ",";//max_follower_no
+	param += $("#joinable").val() + ","//joinable
+	param += $("#phone").val() + ","//phone
+	param += $("#summary").val() + ","//summary
+	param += $("#info").val() //info
+	param = param.replace(/"/g, "\\\"").replace(/'/g, "\\\"").replace(/,/g, "','");
+	param = "'" + param + "'";
+	alert(param);
+
+	$.getJSON(
+		"http://jijiehao.hello987.com/db_driver.php?method=group&param=" + param + "&aids="+$("#var-aids").text()+"&cb=?",
+		function(data){
+			alert(data["id"]);
+			load_act_table(data["id"], 1);
+			$.mobile.changePage( "home.html#act_table", { transition: "slideup", changeHash: false });
+		});
 }
 
 function init_whereto()
@@ -263,45 +288,48 @@ function init_whereto()
 	});
 }
 
-
 function init_act_table()
 {
 	$("#whereto a[href='#act_table']").click(function(){
+		load_act_table($(this).attr("gid"), $(this).attr("ismine"));
+	});
+}
 
-		var gid = $(this).attr("gid") ;
-		var ismine = $(this).attr("ismine") ;
-		$("#applications").html("");
-		$("#act_table .footer").hide();
-		$("#applying").show();
 
-		alert(gid);
-		$.getJSON(
-			"http://jijiehao.hello987.com/db_driver.php?method=v_act_table&gid=" + gid + "&cb=?",
-			function(data){
-				$.get("templates/act_table.template", function(html){
-					$("#act_table-content").html("");
-					var raw=replace_template(html, ["img", "name", "summary", "phone", "info"], data[0]);
-					$.get("templates/act_table.act.template", function(act){
-						for (var i = 0; i < data.length; i++) {
-							raw = raw.replace("#_#", replace_template(act, ["category", "title","cover_img"], data[i])+"#_#");
-						}
-						raw = raw.replace("#_#", "");
-						$("#act_table-content").html(raw);
-					});
+function load_act_table(gid, ismine)
+{
+	$("#applications").html("");
+	$("#act_table .footer").hide();
+	$("#applying").show();
+
+	alert(gid);
+	$.getJSON(
+		"http://jijiehao.hello987.com/db_driver.php?method=v_act_table&gid=" + gid + "&cb=?",
+		function(data){
+			$.get("templates/act_table.template", function(html){
+				$("#act_table-content").html("");
+				var raw=replace_template(html, ["img", "name", "summary", "phone", "info"], data[0]);
+				$.get("templates/act_table.act.template", function(act){
+					for (var i = 0; i < data.length; i++) {
+						raw = raw.replace("#_#", replace_template(act, ["category", "title","cover_img"], data[i])+"#_#");
+					}
+					raw = raw.replace("#_#", "");
+					$("#act_table-content").html(raw);
 				});
 			});
+		});
 
-		if(parseInt(ismine) != 1)return;
+	if(parseInt(ismine) != 1)return;
 
 
-		$("#applying").hide();
-		$("#act_table .footer").show();
-		$.get("templates/act_table.app.template", function(app){
-			$.getJSON(
-				"http://jijiehao.hello987.com/db_driver.php?method=v_message&gid=" + gid + "&cb=?",
-				function(uinfo){
-					for (var i = 0; i < uinfo.length; i++) {
-						var raw = replace_template(app, ["img" , "name"], uinfo[i]);
+	$("#applying").hide();
+	$("#act_table .footer").show();
+	$.get("templates/act_table.app.template", function(app){
+		$.getJSON(
+			"http://jijiehao.hello987.com/db_driver.php?method=v_message&gid=" + gid + "&cb=?",
+			function(uinfo){
+				for (var i = 0; i < uinfo.length; i++) {
+					var raw = replace_template(app, ["img" , "name"], uinfo[i]);
 						if (parseInt(uinfo[i]["approved"]) == 1){//1 applying, 2. approved, 3. rejected
 							raw = raw.replace("#rej-appr-sty#", "approve");
 							raw = raw.replace("#rej-appr#", "阻止");
@@ -315,9 +343,7 @@ function init_act_table()
 					if(uinfo.length > 0)$("#applications").append("<div class='row'></div>");
 					alert($("#app-number").text());
 					$("#app-number").text(uinfo.length.toString());
-			});
-		});
-
+				});
 	});
 }
 
@@ -389,6 +415,20 @@ function load_schedule_cells()
 	});
 }
 
+function showImgOption(e)
+{
+	$("#settings .cover, #settings .pic").show();
+	e.stopPropagation(); 
+	$('body').click(function() {
+		$("#settings .cover, #settings .pic").hide();
+	});
+}
+
+function setGender(gen)
+{
+		var url = "./setting-gender.html?g=" + gen;
+		$.mobile.changePage(url ,{transition: "slide", reloadPage:true});
+}
 
 $(document).ready(function(){
 	//load_group("group2", JSON.parse("{\"0\":\"http:\/\/i1.s2.dpfile.com\/pc\/mc\/17378603f970b8f66d066b8301e8e812(450c280)\/aD0yODAmaz0vcGMvbWMvMTczNzg2,http:\/\/i3.s2.dpfile.com\/pc\/mc\/a6143b8d355b32464d5bef9c94ae1c13(450c280)\/aD0yODAmaz0vcGMvbWMvYTYxNDNi,http:\/\/i2.dpfile.com\/pc\/82656d378658cc0e69af20133e3938f1\/29619112_m.jpg\",\"imgs\":\"http:\/\/i1.s2.dpfile.com\/pc\/mc\/17378603f970b8f66d066b8301e8e812(450c280)\/aD0yODAmaz0vcGMvbWMvMTczNzg2,http:\/\/i3.s2.dpfile.com\/pc\/mc\/a6143b8d355b32464d5bef9c94ae1c13(450c280)\/aD0yODAmaz0vcGMvbWMvYTYxNDNi,http:\/\/i2.dpfile.com\/pc\/82656d378658cc0e69af20133e3938f1\/29619112_m.jpg\",\"1\":\"19\",\"follower_no\":\"19\",\"2\":\"\u609f\u7a7a\",\"name\":\"\u609f\u7a7a\",\"3\":\"http:\/\/ww1.sinaimg.cn\/mw600\/a00dfa2agw1esxqmyg89wj20f00820v5.jpg\",\"img\":\"http:\/\/ww1.sinaimg.cn\/mw600\/a00dfa2agw1esxqmyg89wj20f00820v5.jpg\",\"4\":\"\u4e0b\u5348\u8336 +\u4e0b\u5348\u8336 +\u805a\u9910\",\"title\":\"\u4e0b\u5348\u8336 +\u4e0b\u5348\u8336 +\u805a\u9910\",\"5\":\"2015-11-11 00:00:00\",\"tm\":\"2015-11-11 00:00:00\",\"6\":null,\"cmt_count\":null,\"7\":\"3542529.39704345\",\"dist\":\"3542529.39704345\"}"));
@@ -397,3 +437,28 @@ $(document).ready(function(){
 	init_show_messages();
 	init_show_schedule();
 });
+
+    $("#gender-setting").on('pageshow',function(){
+        alert("reload");
+        alert(getUrlParameter("g"));
+        $(".gender").click(function(){
+            var span = $(this).find("span:nth-of-type(2)");
+            if ($(span).hasClass("icon-i"))return;
+            $(".icon-i").toggleClass("icon-i");
+            $(span).addClass("icon-i");
+        });
+    });
+
+    function getUrlParameter(sParam)
+    {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) 
+        {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam) 
+            {
+                return decodeURIComponent(sParameterName[1]);
+            }
+        }
+    } 
